@@ -141,6 +141,16 @@ def get_nested_text(obj: Any, *paths: tuple[str, ...]) -> str:
     return ""
 
 
+def looks_like_position(value: str) -> bool:
+    text = str(value).strip().upper()
+    return bool(re.fullmatch(r"(T?\d+|-|CUT|WD|DQ)", text))
+
+
+def looks_like_score(value: str) -> bool:
+    text = str(value).strip().upper()
+    return bool(re.fullmatch(r"(E|[+-]?\d+|-|CUT|WD|DQ)", text))
+
+
 def coerce_row(item: dict[str, Any]) -> PlayerRow | None:
     first_name = get_nested_text(item, ("firstName",), ("player", "firstName"), ("athlete", "firstName"))
     last_name = get_nested_text(item, ("lastName",), ("player", "lastName"), ("athlete", "lastName"))
@@ -157,22 +167,68 @@ def coerce_row(item: dict[str, Any]) -> PlayerRow | None:
     if not name:
         return None
 
-    position = get_nested_text(item, ("position",), ("pos",), ("rank",), ("place",)) or "-"
-    to_par = get_nested_text(item, ("toPar",), ("to_par",), ("score",), ("total",)) or "E"
-    today = get_nested_text(item, ("today",), ("roundScore",), ("currentRoundScore",)) or "-"
-    thru = get_nested_text(item, ("thru",), ("through",), ("holesCompleted",)) or "--"
-    tee_time = get_nested_text(item, ("teeTime",), ("tee_time",), ("teetime",)) or "--"
-    status = get_nested_text(item, ("status",), ("state",), ("roundStatus",)) or "Live"
+    position = get_nested_text(
+        item,
+        ("position",),
+        ("pos",),
+        ("rank",),
+        ("place",),
+        ("positionDisplay",),
+        ("leaderboardPosition",),
+        ("playerState", "position"),
+    ) or "-"
+    to_par = get_nested_text(
+        item,
+        ("toPar",),
+        ("to_par",),
+        ("scoreToPar",),
+        ("scoreToParDisplay",),
+        ("overallScoreToPar",),
+        ("totalScoreToPar",),
+        ("displayScore",),
+        ("score",),
+        ("total",),
+    ) or "E"
+    today = get_nested_text(
+        item,
+        ("today",),
+        ("roundScore",),
+        ("currentRoundScore",),
+        ("todayToPar",),
+        ("roundScoreToPar",),
+        ("currentRoundScoreToPar",),
+    ) or "-"
+    thru = get_nested_text(
+        item,
+        ("thru",),
+        ("through",),
+        ("holesCompleted",),
+        ("thruDisplay",),
+        ("throughDisplay",),
+    ) or "--"
+    tee_time = get_nested_text(
+        item,
+        ("teeTime",),
+        ("tee_time",),
+        ("teetime",),
+        ("teeTimeDisplay",),
+    ) or "--"
+    status = get_nested_text(
+        item,
+        ("status",),
+        ("state",),
+        ("roundStatus",),
+        ("statusDisplay",),
+        ("roundStatusDisplay",),
+        ("playerState", "status"),
+    ) or "Live"
 
     # Ignore general player/profile objects that are not actual leaderboard rows.
-    has_leaderboard_shape = any(
-        value not in ("", None)
-        for value in (
-            get_nested_text(item, ("toPar",), ("to_par",), ("score",), ("total",)),
-            get_nested_text(item, ("position",), ("pos",), ("rank",), ("place",)),
-            get_nested_text(item, ("today",), ("roundScore",), ("currentRoundScore",)),
-            get_nested_text(item, ("thru",), ("through",), ("holesCompleted",)),
-        )
+    has_leaderboard_shape = (
+        looks_like_score(to_par) or
+        looks_like_position(position) or
+        looks_like_score(today) or
+        str(thru).strip().upper() not in ("", "--")
     )
     if not has_leaderboard_shape:
         return None
