@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=2026.06.12.02">
+  <link rel="stylesheet" href="./styles.css?v=2026.06.12.03">
 </head>
 <body>
   <div class="page-shell">
@@ -37,7 +37,7 @@
           <strong id="pool-leader">Loading...</strong>
         </div>
         <button id="toggle-admin" class="ghost-button" type="button">Import Field And Build Picks</button>
-        <p class="hero-helper">Open the panel to import the player field, then choose picks for Mike, Gary, and Eames.</p>
+        <p class="hero-helper">Open the panel to import the player field, choose picks for Mike, Gary, and Eames, and use the repo-updated feed for leaderboard refreshes.</p>
       </div>
     </header>
 
@@ -46,6 +46,7 @@
         <div class="masters-board-title">
           <p class="board-kicker">Pool Board</p>
           <h2>2026 U.S. Open Leaders</h2>
+          <p id="board-update-badge" class="board-update-badge">Last auto update: waiting for data</p>
         </div>
         <div class="masters-board-frame">
           <div class="board-meta-row">
@@ -171,9 +172,9 @@
     </div>
   </template>
 
-  <script src="./data/config.js?v=2026.06.12.02" defer></script>
-  <script src="./data/picks.js?v=2026.06.12.02" defer></script>
-  <script src="./data/leaderboard.js?v=2026.06.12.02" defer></script>
-  <script src="./app.js?v=2026.06.12.10" defer></script>
+  <script src="./data/config.js?v=2026.06.12.03" defer></script>
+  <script src="./data/picks.js?v=2026.06.12.03" defer></script>
+  <script src="./data/leaderboard.js?v=2026.06.12.03" defer></script>
+  <script src="./app.js?v=2026.06.12.12" defer></script>
 </body>
 </html>

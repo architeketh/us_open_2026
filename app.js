@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.10";
+const APP_VERSION = "2026.06.12.12";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -20,6 +20,7 @@ const elements = {
   eventLeader: document.getElementById("event-leader"),
   poolLeader: document.getElementById("pool-leader"),
   boardUpdate: document.getElementById("board-update"),
+  boardUpdateBadge: document.getElementById("board-update-badge"),
   scoresLastUpdated: document.getElementById("scores-last-updated"),
   boardPlayerCount: document.getElementById("board-player-count"),
   boardVersion: document.getElementById("board-version"),
@@ -1044,6 +1045,9 @@ function updateHeader(config, entries, leaderboard) {
   elements.tournamentVenue.textContent = config.tournament.venue;
   const lastUpdatedText = `Scores last updated: ${formatLastUpdated(leaderboard.lastUpdated)}`;
   elements.boardUpdate.textContent = lastUpdatedText;
+  if (elements.boardUpdateBadge) {
+    elements.boardUpdateBadge.textContent = `Last auto update: ${formatLastUpdated(leaderboard.lastUpdated)}`;
+  }
   elements.scoresLastUpdated.textContent = lastUpdatedText;
   elements.boardVersion.textContent = `Build ${APP_VERSION}`;
 
