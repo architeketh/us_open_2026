@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.08";
+const APP_VERSION = "2026.06.12.10";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -153,6 +153,12 @@ function formatPlayerNameForDisplay(value) {
   const lastName = parts[parts.length - 1];
   const firstNames = parts.slice(0, -1).join(" ");
   return `${lastName}, ${firstNames}`;
+}
+
+function comparePlayersByLastName(a, b) {
+  const displayA = formatPlayerNameForDisplay(a);
+  const displayB = formatPlayerNameForDisplay(b);
+  return displayA.localeCompare(displayB);
 }
 
 function formatScore(value) {
@@ -503,7 +509,7 @@ function parsePlayerField(rawText) {
     throw new Error("No player names were recognized in the imported field.");
   }
 
-  return deduped.sort((a, b) => a.localeCompare(b));
+  return deduped.sort(comparePlayersByLastName);
 }
 
 function parseLeaderboardCsv(rawText, currentLeaderboard, picks) {
@@ -1096,7 +1102,7 @@ function renderFieldPreview(players) {
 }
 
 function buildPickSelectOptions(selectedName) {
-  const sortedPlayers = latestFieldPlayers.slice().sort((a, b) => a.localeCompare(b));
+  const sortedPlayers = latestFieldPlayers.slice().sort(comparePlayersByLastName);
   const options = [`<option value="">Open slot</option>`];
   sortedPlayers.forEach((name) => {
     const selected = name === selectedName ? " selected" : "";
@@ -1351,6 +1357,10 @@ async function init() {
     elements.applyData.addEventListener("click", () => {
       try {
         const rawInput = elements.leaderboardInput.value.trim();
+        if (!rawInput) {
+          elements.adminStatus.textContent = "Paste leaderboard data here only if you want to manually override the automatic feed.";
+          return;
+        }
         const parsed = parseAdminInput(rawInput, latestLeaderboard || repoLeaderboard, latestPicks || activePicks);
 
         localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(parsed));
@@ -1443,6 +1453,7 @@ async function init() {
     if (!hasSavedField || !hasAnyPicks) {
       updatePicksStatus("Use the Import Field And Build Picks button when you are ready to load the field or make picks.");
     }
+    elements.adminStatus.textContent = "Automatic leaderboard updates come from the repo. Use this section only for manual overrides.";
   } catch (error) {
     console.error(error);
     [elements.mastersBoard, elements.mastersBoardMobile, elements.scoreboard, elements.leaderboard].forEach(renderEmptyState);
