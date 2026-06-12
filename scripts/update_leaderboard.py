@@ -1,0 +1,344 @@
+from __future__ import annotations
+
+import json
+import os
+import re
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from html import unescape
+from pathlib import Path
+from typing import Any
+
+import requests
+from bs4 import BeautifulSoup
+
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+PLAYERS_FILENAME = os.environ.get("PLAYERS_FILE", "").strip() or "players.txt"
+PLAYERS_PATH = DATA_DIR / PLAYERS_FILENAME
+LEADERBOARD_JSON_PATH = DATA_DIR / "leaderboard.json"
+LEADERBOARD_JS_PATH = DATA_DIR / "leaderboard.js"
+SOURCE_URL = os.environ.get("LEADERBOARD_SOURCE_URL", "").strip() or "https://www.usopen.com/2026/scoring.html"
+
+
+@dataclass
+class PlayerRow:
+    name: str
+    position: str = "-"
+    to_par: str = "E"
+    today: str = "-"
+    thru: str = "--"
+    tee_time: str = "--"
+    status: str = "Not started"
+
+
+def normalize_name(value: str) -> str:
+    cleaned = value.lower()
+    cleaned = (
+        cleaned.replace("å", "a")
+        .replace("ä", "a")
+        .replace("ö", "o")
+        .replace("ø", "o")
+        .replace("ü", "u")
+        .replace("é", "e")
+        .replace("ñ", "n")
+        .replace(".", "")
+        .replace("j.y.", "jy")
+    )
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned
+
+
+def parse_csv_row(line: str) -> list[str]:
+    values: list[str] = []
+    current = ""
+    in_quotes = False
+    for char in line:
+        if char == '"':
+            in_quotes = not in_quotes
+        elif char == "," and not in_quotes:
+            values.append(current.strip())
+            current = ""
+        else:
+            current += char
+    values.append(current.strip())
+    return [value.strip().strip('"') for value in values]
+
+
+def load_field_players() -> list[str]:
+    lines = [line.strip() for line in PLAYERS_PATH.read_text(encoding="utf-8", errors="replace").splitlines() if line.strip()]
+    if not lines:
+      raise RuntimeError(f"{PLAYERS_FILENAME} is empty.")
+
+    header = [cell.upper() for cell in parse_csv_row(lines[0])]
+    players: list[str] = []
+
+    if "FIRST NAME" in header and "LAST NAME" in header:
+        first_index = header.index("FIRST NAME")
+        last_index = header.index("LAST NAME")
+        for line in lines[1:]:
+            row = parse_csv_row(line)
+            if len(row) <= max(first_index, last_index):
+                continue
+            name = f"{row[first_index]} {row[last_index]}".strip()
+            if name:
+                players.append(unescape(name))
+        return players
+
+    has_header = any(token in {"PLAYER", "NAME", "FIRST NAME", "LAST NAME"} for token in header)
+    source_lines = lines[1:] if has_header else lines
+
+    for line in source_lines:
+        row = parse_csv_row(line)
+        if not row:
+            continue
+        players.append(unescape(row[0]).strip())
+
+    return players
+
+
+def fetch_source_text() -> str:
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/126.0.0.0 Safari/537.36"
+        ),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+    }
+    response = requests.get(SOURCE_URL, headers=headers, timeout=30)
+    response.raise_for_status()
+    return response.text
+
+
+def dig(obj: Any) -> list[Any]:
+    found: list[Any] = []
+    if isinstance(obj, dict):
+        found.append(obj)
+        for value in obj.values():
+            found.extend(dig(value))
+    elif isinstance(obj, list):
+        for item in obj:
+            found.extend(dig(item))
+    return found
+
+
+def get_nested_text(obj: Any, *paths: tuple[str, ...]) -> str:
+    for path in paths:
+        current = obj
+        ok = True
+        for key in path:
+            if not isinstance(current, dict) or key not in current:
+                ok = False
+                break
+            current = current[key]
+        if ok and current not in (None, ""):
+            return str(current).strip()
+    return ""
+
+
+def coerce_row(item: dict[str, Any]) -> PlayerRow | None:
+    name = get_nested_text(
+        item,
+        ("name",),
+        ("player",),
+        ("displayName",),
+        ("athlete", "displayName"),
+        ("competitor", "displayName"),
+    )
+    if not name:
+        return None
+
+    position = get_nested_text(item, ("position",), ("pos",), ("rank",), ("place",)) or "-"
+    to_par = get_nested_text(item, ("toPar",), ("to_par",), ("score",), ("total",)) or "E"
+    today = get_nested_text(item, ("today",), ("roundScore",), ("currentRoundScore",)) or "-"
+    thru = get_nested_text(item, ("thru",), ("through",), ("holesCompleted",)) or "--"
+    tee_time = get_nested_text(item, ("teeTime",), ("tee_time",), ("teetime",)) or "--"
+    status = get_nested_text(item, ("status",), ("state",), ("roundStatus",)) or "Live"
+
+    return PlayerRow(
+        name=unescape(name),
+        position=position,
+        to_par=to_par,
+        today=today,
+        thru=thru,
+        tee_time=tee_time,
+        status=status,
+    )
+
+
+def extract_rows_from_json(html: str) -> list[PlayerRow]:
+    candidates: list[str] = []
+    next_data = re.findall(r'<script[^>]*id="__NEXT_DATA__"[^>]*>(.*?)</script>', html, flags=re.S)
+    candidates.extend(next_data)
+    script_json = re.findall(r"window\.[A-Za-z0-9_]+\s*=\s*(\{.*?\});", html, flags=re.S)
+    candidates.extend(script_json)
+
+    rows: list[PlayerRow] = []
+    seen: set[str] = set()
+
+    for candidate in candidates:
+        try:
+            payload = json.loads(candidate.rstrip(";"))
+        except Exception:
+            continue
+
+        for obj in dig(payload):
+            row = coerce_row(obj) if isinstance(obj, dict) else None
+            if not row:
+                continue
+            key = normalize_name(row.name)
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(row)
+
+    return rows
+
+
+def extract_rows_from_table(html: str) -> list[PlayerRow]:
+    soup = BeautifulSoup(html, "html.parser")
+    rows: list[PlayerRow] = []
+    seen: set[str] = set()
+
+    for table in soup.find_all("table"):
+        header_cells = [cell.get_text(" ", strip=True).upper() for cell in table.find_all("th")]
+        if not header_cells:
+            continue
+        if "PLAYER" not in header_cells and "NAME" not in header_cells:
+            continue
+
+        for tr in table.find_all("tr"):
+            cells = [cell.get_text(" ", strip=True) for cell in tr.find_all(["td", "th"])]
+            if len(cells) < 2:
+                continue
+
+            header_map = {text: idx for idx, text in enumerate(header_cells)}
+            player_idx = header_map.get("PLAYER", header_map.get("NAME"))
+            if player_idx is None or player_idx >= len(cells):
+                continue
+
+            name = cells[player_idx].strip()
+            key = normalize_name(name)
+            if not name or key in seen or key in {"player", "name"}:
+                continue
+
+            seen.add(key)
+            rows.append(
+                PlayerRow(
+                    name=name,
+                    position=cells[header_map["POS"]] if "POS" in header_map and header_map["POS"] < len(cells) else "-",
+                    to_par=cells[header_map["TO PAR"]] if "TO PAR" in header_map and header_map["TO PAR"] < len(cells) else "E",
+                    today=cells[header_map["TODAY"]] if "TODAY" in header_map and header_map["TODAY"] < len(cells) else "-",
+                    thru=cells[header_map["THRU"]] if "THRU" in header_map and header_map["THRU"] < len(cells) else "--",
+                    tee_time=cells[header_map["TEE TIME"]] if "TEE TIME" in header_map and header_map["TEE TIME"] < len(cells) else "--",
+                    status=cells[header_map["STATUS"]] if "STATUS" in header_map and header_map["STATUS"] < len(cells) else "Live",
+                )
+            )
+
+    return rows
+
+
+def choose_rows(html: str) -> list[PlayerRow]:
+    rows = extract_rows_from_json(html)
+    if rows:
+        return rows
+    rows = extract_rows_from_table(html)
+    if rows:
+        return rows
+    raise RuntimeError(
+        f"Unable to extract leaderboard rows from {SOURCE_URL}. "
+        "Set the LEADERBOARD_SOURCE_URL repo variable to a source page with visible leaderboard data."
+    )
+
+
+def parse_score(value: str) -> int | None:
+    text = str(value).strip().upper()
+    if not text:
+        return None
+    if text == "E":
+        return 0
+    try:
+        return int(text.replace("+", ""))
+    except ValueError:
+        return None
+
+
+def compute_leader_text(rows: list[PlayerRow]) -> str:
+    scored = [(row, parse_score(row.to_par)) for row in rows]
+    valid = [(row, score) for row, score in scored if score is not None]
+    if not valid:
+        return "Field not started"
+    best = min(score for _, score in valid)
+    leaders = [row for row, score in valid if score == best][:3]
+    return " / ".join(f"{row.name} ({row.to_par})" for row in leaders)
+
+
+def build_payload(field_players: list[str], source_rows: list[PlayerRow]) -> dict[str, Any]:
+    source_lookup = {normalize_name(row.name): row for row in source_rows}
+    players = []
+    for name in field_players:
+        row = source_lookup.get(normalize_name(name))
+        if row:
+            status = row.status or "Live"
+            made_cut = "cut" not in status.lower()
+            players.append(
+                {
+                    "name": name,
+                    "position": row.position or "-",
+                    "toPar": row.to_par or "E",
+                    "today": row.today or "-",
+                    "thru": row.thru or "--",
+                    "teeTime": row.tee_time or "--",
+                    "status": status,
+                    "madeCut": made_cut,
+                    "isChampion": False,
+                    "scoreToPar": parse_score(row.to_par),
+                }
+            )
+        else:
+            players.append(
+                {
+                    "name": name,
+                    "position": "-",
+                    "toPar": "E",
+                    "today": "-",
+                    "thru": "--",
+                    "teeTime": "--",
+                    "status": "Not started",
+                    "madeCut": False,
+                    "isChampion": False,
+                    "scoreToPar": 0,
+                }
+            )
+
+    timestamp = datetime.now(timezone.utc).strftime("%B %d, %Y at %I:%M %p UTC")
+    return {
+        "lastUpdated": f"Auto-updated on {timestamp}",
+        "tournamentLeaderText": compute_leader_text(source_rows),
+        "players": players,
+    }
+
+
+def write_payload(payload: dict[str, Any]) -> None:
+    json_text = json.dumps(payload, indent=2) + "\n"
+    js_text = f"window.US_OPEN_LEADERBOARD = {json.dumps(payload, indent=2)};\n"
+    LEADERBOARD_JSON_PATH.write_text(json_text, encoding="utf-8")
+    LEADERBOARD_JS_PATH.write_text(js_text, encoding="utf-8")
+
+
+def main() -> None:
+    field_players = load_field_players()
+    html = fetch_source_text()
+    rows = choose_rows(html)
+    payload = build_payload(field_players, rows)
+    write_payload(payload)
+    print(f"Updated leaderboard for {len(payload['players'])} field players from {SOURCE_URL} using {PLAYERS_FILENAME}")
+
+
+if __name__ == "__main__":
+    main()
