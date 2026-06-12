@@ -1,16 +1,30 @@
 window.US_OPEN_PICKS = {
-  entries: [
+  "entries": [
     {
-      name: "Mike",
-      picks: []
+      "name": "Mike",
+      "picks": [
+        "Max Homa",
+        "Aaron Rai",
+        "Brooks Koepka"
+      ]
     },
     {
-      name: "Gary",
-      picks: []
+      "name": "Gary",
+      "picks": [
+        "Alex Fitzpatrick",
+        "Tommy Fleetwood",
+        "Tony Finau",
+        "Li Haotong"
+      ]
     },
     {
-      name: "Eames",
-      picks: []
+      "name": "Eames",
+      "picks": [
+        "Ben Kohles",
+        "Ben Martin",
+        "Sam Burns",
+        "Brian Campbell"
+      ]
     }
   ]
 };

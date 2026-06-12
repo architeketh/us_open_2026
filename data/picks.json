@@ -2,15 +2,29 @@
   "entries": [
     {
       "name": "Mike",
-      "picks": []
+      "picks": [
+        "Max Homa",
+        "Aaron Rai",
+        "Brooks Koepka"
+      ]
     },
     {
       "name": "Gary",
-      "picks": []
+      "picks": [
+        "Alex Fitzpatrick",
+        "Tommy Fleetwood",
+        "Tony Finau",
+        "Li Haotong"
+      ]
     },
     {
       "name": "Eames",
-      "picks": []
+      "picks": [
+        "Ben Kohles",
+        "Ben Martin",
+        "Sam Burns",
+        "Brian Campbell"
+      ]
     }
   ]
 }
