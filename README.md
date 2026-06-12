@@ -17,6 +17,7 @@ Static scoreboard site built for GitHub Pages. No build step, no backend, and al
 - `data/leaderboard.json`: current tournament leaderboard
 - `data/leaderboard.js`: browser-ready copy of the current tournament leaderboard
 - `data/config.json`: event title, dates, venue, and scoring rules
+- `data/players.txt`: default U.S. Open player field used by the pick builder and auto-updater
 
 ## GitHub Pages setup
 
@@ -43,6 +44,42 @@ Static scoreboard site built for GitHub Pages. No build step, no backend, and al
 ```
 
 That stages the two leaderboard files, creates a commit, and pushes to your current Git branch.
+
+## Optional automated updates
+
+If you want GitHub to refresh the leaderboard automatically every 10 minutes:
+
+1. Upload the `.github/workflows/update-leaderboard.yml`, `requirements.txt`, and `scripts/update_leaderboard.py` files.
+2. In GitHub, open `Settings` -> `Secrets and variables` -> `Actions` -> `Variables`.
+3. Add a repository variable named `LEADERBOARD_SOURCE_URL`.
+4. Set it to the live leaderboard source you want the updater to read.
+5. Best option: use a published Google Sheet CSV feed instead of scraping a golf site page directly.
+6. If you have a published Google Sheet `pubhtml` link, the updater will automatically convert it to the matching CSV export URL.
+7. Optionally add a repository variable named `PLAYERS_FILE` if you want to use a different field list for testing.
+8. Enable GitHub Actions for the repository.
+
+The workflow will run every 10 minutes and rewrite:
+
+- `data/leaderboard.json`
+- `data/leaderboard.js`
+
+The site will then poll the repo leaderboard file in the browser and refresh itself automatically.
+
+For a dry run before U.S. Open week, you can point `LEADERBOARD_SOURCE_URL` at a Canadian Open Google Sheet feed now, confirm that the workflow is committing leaderboard updates, and then switch the variable to the U.S. Open source next week without changing code.
+
+Suggested Canadian Open dry-run settings:
+
+- `LEADERBOARD_SOURCE_URL`: `https://docs.google.com/spreadsheets/d/e/2PACX-1vQ82Z-7ABj6g1k_U6YiM6-B2KKG4wPpFw1QY5OUJ6hG91Md2Kvh36EcaOxZw9Jf_grxVPaCg8IFGeBw/pub?gid=0&single=true&output=csv`
+- `PLAYERS_FILE`: `players_canadian_open.txt`
+
+The updater expects a sheet with a `PLAYER` or `NAME` column plus any of these optional columns:
+
+- `POS`
+- `TO PAR`
+- `TODAY`
+- `THRU`
+- `TEE TIME`
+- `STATUS`
 
 For a simpler Windows shortcut, you can also double-click:
 
