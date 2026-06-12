@@ -173,6 +173,20 @@ function formatLastUpdated(value) {
   return value;
 }
 
+function formatCentralTimeStamp(prefix) {
+  const formatted = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  }).format(new Date());
+
+  return `${prefix} ${formatted} CT`;
+}
+
 function renderTournamentName(name) {
   const value = String(name || "").trim();
   const normalized = value.replace(/\bU\.S\.\b/g, "US");
@@ -632,7 +646,7 @@ function parseLeaderboardCsv(rawText, currentLeaderboard, picks) {
   });
 
   return {
-    lastUpdated: `Imported CSV on ${new Date().toLocaleString()}`,
+    lastUpdated: formatCentralTimeStamp("Imported CSV on"),
     tournamentLeaderText,
     players: mergedPlayers
   };
@@ -703,7 +717,7 @@ function parseRawLeaderboardInput(rawText, currentLeaderboard, picks) {
   });
 
   return {
-    lastUpdated: `Imported on ${new Date().toLocaleString()}`,
+    lastUpdated: formatCentralTimeStamp("Imported on"),
     players: mergedPlayers
   };
 }
