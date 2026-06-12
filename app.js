@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.07";
+const APP_VERSION = "2026.06.12.08";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -33,6 +33,8 @@ const elements = {
   csvFileInput: document.getElementById("csv-file-input"),
   playerFieldInput: document.getElementById("player-field-input"),
   playerFieldFileInput: document.getElementById("player-field-file-input"),
+  fieldPreview: document.getElementById("field-preview"),
+  fieldPreviewCount: document.getElementById("field-preview-count"),
   entryBuilder: document.getElementById("entry-builder"),
   fieldCount: document.getElementById("field-count"),
   picksStatus: document.getElementById("picks-status"),
@@ -138,6 +140,19 @@ function sanitizePlayerName(value) {
   }
 
   return cleaned.replace(/,\s*[A-Za-z .'-]+$/, "").trim();
+}
+
+function formatPlayerNameForDisplay(value) {
+  const clean = sanitizePlayerName(value);
+  if (!clean) return "";
+  if (clean.includes(",")) return clean;
+
+  const parts = clean.split(/\s+/).filter(Boolean);
+  if (parts.length < 2) return clean;
+
+  const lastName = parts[parts.length - 1];
+  const firstNames = parts.slice(0, -1).join(" ");
+  return `${lastName}, ${firstNames}`;
 }
 
 function formatScore(value) {
@@ -1066,12 +1081,26 @@ function renderFieldStatus() {
     : "No player field loaded yet";
 }
 
+function renderFieldPreview(players) {
+  if (!players || !players.length) {
+    elements.fieldPreviewCount.textContent = "No preview yet";
+    elements.fieldPreview.innerHTML = `<p class="muted">Imported names will preview here as Last, First before you save.</p>`;
+    return;
+  }
+
+  elements.fieldPreviewCount.textContent = `${players.length} players ready`;
+  elements.fieldPreview.innerHTML = players
+    .slice(0, 36)
+    .map((name) => `<span class="field-preview-chip">${escapeHtml(formatPlayerNameForDisplay(name))}</span>`)
+    .join("");
+}
+
 function buildPickSelectOptions(selectedName) {
   const sortedPlayers = latestFieldPlayers.slice().sort((a, b) => a.localeCompare(b));
   const options = [`<option value="">Open slot</option>`];
   sortedPlayers.forEach((name) => {
     const selected = name === selectedName ? " selected" : "";
-    options.push(`<option value="${escapeHtml(name)}"${selected}>${escapeHtml(name)}</option>`);
+    options.push(`<option value="${escapeHtml(name)}"${selected}>${escapeHtml(formatPlayerNameForDisplay(name))}</option>`);
   });
   return options.join("");
 }
@@ -1129,6 +1158,7 @@ function saveFieldPlayers(players) {
   latestFieldPlayers = players.slice();
   localStorage.setItem(FIELD_STORAGE_KEY, JSON.stringify(latestFieldPlayers));
   renderFieldStatus();
+  renderFieldPreview(latestFieldPlayers);
   renderEntryBuilder(latestPicks, latestConfig);
 }
 
@@ -1200,6 +1230,7 @@ function renderApp(config, picks, leaderboard) {
   renderScoreboard(entries);
   renderLeaderboard(normalizedLeaderboard.players);
   renderFieldStatus();
+  renderFieldPreview(latestFieldPlayers);
   renderEntryBuilder(normalizedPicks, config);
   seedAdminEditor();
 }
@@ -1342,6 +1373,7 @@ async function init() {
     elements.saveField.addEventListener("click", () => {
       try {
         const players = parsePlayerField(elements.playerFieldInput.value);
+        renderFieldPreview(players);
         saveFieldPlayers(players);
         updatePicksStatus(`Saved ${players.length} players to the field list.`);
       } catch (error) {
@@ -1397,6 +1429,7 @@ async function init() {
         const text = await file.text();
         elements.playerFieldInput.value = text;
         const players = parsePlayerField(text);
+        renderFieldPreview(players);
         saveFieldPlayers(players);
         updatePicksStatus(`Imported ${players.length} players from ${file.name}.`);
         event.target.value = "";

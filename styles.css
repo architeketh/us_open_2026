@@ -688,6 +688,45 @@ textarea {
   font: 0.94rem/1.5 Consolas, "SFMono-Regular", monospace;
 }
 
+.field-preview-shell {
+  margin-top: 4px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.52);
+  border: 1px solid var(--line);
+}
+
+.field-preview-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.field-preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.field-preview-list p {
+  margin: 0;
+}
+
+.field-preview-chip {
+  display: inline-flex;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(16, 59, 99, 0.08);
+  border: 1px solid rgba(16, 59, 99, 0.14);
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
 .hidden { display: none; }
 
 .entry-builder {

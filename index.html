@@ -112,6 +112,15 @@
         <input id="player-field-file-input" type="file" accept=".csv,text/csv,.txt,text/plain">
       </label>
       <textarea id="player-field-input" spellcheck="false" aria-label="Player field" placeholder="Paste one player per line, or paste a CSV with a PLAYER or NAME column."></textarea>
+      <div class="field-preview-shell">
+        <div class="field-preview-heading">
+          <strong>Preview</strong>
+          <span id="field-preview-count" class="muted">No preview yet</span>
+        </div>
+        <div id="field-preview" class="field-preview-list">
+          <p class="muted">Imported names will preview here as Last, First before you save.</p>
+        </div>
+      </div>
       <div class="admin-actions">
         <button id="save-field" type="button">Save field list</button>
         <button id="reset-local-data" class="ghost-button" type="button">Reset local data</button>
@@ -165,6 +174,6 @@
   <script src="./data/config.js?v=2026.06.12.02" defer></script>
   <script src="./data/picks.js?v=2026.06.12.02" defer></script>
   <script src="./data/leaderboard.js?v=2026.06.12.02" defer></script>
-  <script src="./app.js?v=2026.06.12.07" defer></script>
+  <script src="./app.js?v=2026.06.12.08" defer></script>
 </body>
 </html>
