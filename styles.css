@@ -37,6 +37,10 @@ body::before {
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 75%);
 }
 
+body.admin-open {
+  overflow: hidden;
+}
+
 .page-shell {
   width: min(1200px, calc(100vw - 32px));
   margin: 0 auto;
@@ -593,16 +597,27 @@ tbody tr:hover { background: rgba(255, 255, 255, 0.5); }
   color: var(--green);
 }
 
+.admin-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 34, 53, 0.2);
+  backdrop-filter: blur(6px);
+  z-index: 18;
+}
+
 .admin-panel {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: min(760px, calc(100vw - 24px));
-  max-height: calc(100vh - 40px);
+  top: 16px;
+  right: 16px;
+  bottom: 16px;
+  width: min(560px, calc(100vw - 24px));
+  max-height: none;
   overflow-y: auto;
   border-radius: 28px;
   padding: 22px;
   z-index: 20;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  box-shadow: 0 28px 70px rgba(18, 33, 52, 0.24);
 }
 
 .admin-header,
@@ -892,8 +907,10 @@ textarea {
   }
 
   .admin-panel {
+    top: 10px;
     right: 10px;
     left: 10px;
+    bottom: 10px;
     width: auto;
   }
 

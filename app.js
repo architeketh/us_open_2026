@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.06";
+const APP_VERSION = "2026.06.12.07";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -27,6 +27,7 @@ const elements = {
   mastersBoardMobile: document.getElementById("masters-board-mobile"),
   scoreboard: document.getElementById("scoreboard"),
   leaderboard: document.getElementById("leaderboard"),
+  adminBackdrop: document.getElementById("admin-backdrop"),
   adminPanel: document.getElementById("admin-panel"),
   leaderboardInput: document.getElementById("leaderboard-input"),
   csvFileInput: document.getElementById("csv-file-input"),
@@ -1042,7 +1043,12 @@ function updateHeader(config, entries, leaderboard) {
     .join(" / ");
 
   const rawLeaderText = String(leaderboard.tournamentLeaderText || "").trim();
-  const malformedLeaderText = !rawLeaderText || rawLeaderText.includes("{") || rawLeaderText.length > 120;
+  const malformedLeaderText = (
+    !rawLeaderText ||
+    rawLeaderText.length > 120 ||
+    /[{}[\]]/.test(rawLeaderText) ||
+    /(firstName|lastName|displayName|bettingProfile|countryFlag|abbreviations)/i.test(rawLeaderText)
+  );
   elements.eventLeader.textContent = malformedLeaderText ? (fallbackLeader || "No leaderboard data") : rawLeaderText;
   elements.poolLeader.textContent = entries[0]
     ? `${entries[0].name} (${entries[0].hasChampion ? "winner drafted" : formatScore(entries[0].rawScore)})`
@@ -1199,6 +1205,9 @@ function renderApp(config, picks, leaderboard) {
 }
 
 function setAdminOpen(isOpen) {
+  document.body.classList.toggle("admin-open", isOpen);
+  elements.adminBackdrop.classList.toggle("hidden", !isOpen);
+  elements.adminBackdrop.setAttribute("aria-hidden", String(!isOpen));
   elements.adminPanel.classList.toggle("hidden", !isOpen);
   elements.adminPanel.setAttribute("aria-hidden", String(!isOpen));
 }
@@ -1299,6 +1308,12 @@ async function init() {
       setAdminOpen(isHidden);
     });
     elements.closeAdmin.addEventListener("click", () => setAdminOpen(false));
+    elements.adminBackdrop.addEventListener("click", () => setAdminOpen(false));
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !elements.adminPanel.classList.contains("hidden")) {
+        setAdminOpen(false);
+      }
+    });
     window.addEventListener("resize", applyResponsiveBoardMode);
     window.setInterval(refreshLeaderboardFromRepo, LEADERBOARD_REFRESH_INTERVAL_MS);
 
@@ -1393,8 +1408,7 @@ async function init() {
     const hasSavedField = latestFieldPlayers.length > 0;
     const hasAnyPicks = activePicks.entries.some((entry) => entry.picks.length > 0);
     if (!hasSavedField || !hasAnyPicks) {
-      setAdminOpen(true);
-      updatePicksStatus("Start in the Player Field section to import the U.S. Open field, then build picks for Mike, Gary, and Eames.");
+      updatePicksStatus("Use the Import Field And Build Picks button when you are ready to load the field or make picks.");
     }
   } catch (error) {
     console.error(error);
