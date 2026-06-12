@@ -1,7 +1,8 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.02";
+const APP_VERSION = "2026.06.12.04";
+const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
   picks: "./data/picks.json",
@@ -70,6 +71,10 @@ async function loadText(path) {
   return response.text();
 }
 
+function stableStringify(value) {
+  return JSON.stringify(value);
+}
+
 async function loadData() {
   try {
     const [config, picks, leaderboard] = await Promise.all([
@@ -124,6 +129,22 @@ function formatScore(value) {
 function formatLastUpdated(value) {
   if (!value) return "waiting for data";
   return value;
+}
+
+function renderTournamentName(name) {
+  const value = String(name || "").trim();
+  const normalized = value.replace(/\bU\.S\.\b/g, "US");
+  const suffix = "Pick Scoreboard";
+
+  if (normalized.endsWith(suffix)) {
+    const firstLine = normalized.slice(0, -suffix.length).trim();
+    return `
+      <span class="hero-title-line hero-title-line-primary">${escapeHtml(firstLine)}</span>
+      <span class="hero-title-line hero-title-line-secondary">${escapeHtml(suffix)}</span>
+    `;
+  }
+
+  return `<span class="hero-title-line hero-title-line-primary">${escapeHtml(normalized)}</span>`;
 }
 
 function buildTournamentLeaderTextFromRows(rows, header) {
@@ -423,11 +444,12 @@ function parsePlayerField(rawText) {
       })
       .filter(Boolean);
   } else {
-    names = lines.flatMap((line) => {
-      if (line.includes(",") && !line.includes(", ")) {
-        return line.split(",");
+    names = lines.map((line) => {
+      const row = parseCsvRow(line);
+      if (row.length >= 2) {
+        return row[0];
       }
-      return [line];
+      return line;
     });
   }
 
@@ -975,7 +997,7 @@ function renderMastersBoard(entries) {
 }
 
 function updateHeader(config, entries, leaderboard) {
-  elements.tournamentName.textContent = config.tournament.name;
+  elements.tournamentName.innerHTML = renderTournamentName(config.tournament.name);
   elements.tournamentSubtitle.textContent = config.tournament.subtitle;
   elements.tournamentDates.textContent = config.tournament.dates;
   elements.tournamentVenue.textContent = config.tournament.venue;
@@ -1165,6 +1187,26 @@ function parseAdminInput(rawInput, currentLeaderboard, picks) {
   return parseRawLeaderboardInput(rawInput, currentLeaderboard, picks);
 }
 
+async function refreshLeaderboardFromRepo() {
+  const storedLeaderboard = getStoredLeaderboard();
+  if (storedLeaderboard || !latestConfig || !latestPicks) {
+    return;
+  }
+
+  try {
+    const refreshed = await loadJson(DATA_FILES.leaderboard);
+    const normalized = normalizeLeaderboardData(refreshed);
+    if (stableStringify(normalized) === stableStringify(latestLeaderboard)) {
+      return;
+    }
+
+    repoLeaderboard = normalized;
+    renderApp(latestConfig, latestPicks, normalized);
+  } catch (error) {
+    console.warn("Unable to refresh leaderboard from repo.", error);
+  }
+}
+
 function compareText(a, b) {
   return a.localeCompare(b);
 }
@@ -1230,6 +1272,7 @@ async function init() {
     });
     elements.closeAdmin.addEventListener("click", () => setAdminOpen(false));
     window.addEventListener("resize", applyResponsiveBoardMode);
+    window.setInterval(refreshLeaderboardFromRepo, LEADERBOARD_REFRESH_INTERVAL_MS);
 
     elements.applyData.addEventListener("click", () => {
       try {
