@@ -5,7 +5,8 @@ const APP_VERSION = "2026.06.12.02";
 const DATA_FILES = {
   config: "./data/config.json",
   picks: "./data/picks.json",
-  leaderboard: "./data/leaderboard.json"
+  leaderboard: "./data/leaderboard.json",
+  players: "./data/players.txt"
 };
 
 const DEFAULT_ENTRY_NAMES = ["Mike", "Gary", "Eames"];
@@ -61,6 +62,12 @@ async function loadJson(path) {
   const response = await fetch(path, { cache: "no-store" });
   if (!response.ok) throw new Error(`Failed to load ${path}`);
   return response.json();
+}
+
+async function loadText(path) {
+  const response = await fetch(path, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Failed to load ${path}`);
+  return response.text();
 }
 
 async function loadData() {
@@ -351,6 +358,38 @@ function findColumnIndex(header, names) {
   return header.findIndex((cell) => names.includes(cell));
 }
 
+function fixCommonMojibake(value) {
+  return String(value || "")
+    .replace(/Ã…/g, "Å")
+    .replace(/Ã¤/g, "ä")
+    .replace(/Ã„/g, "Ä")
+    .replace(/Ã¶/g, "ö")
+    .replace(/Ã–/g, "Ö")
+    .replace(/Ã¼/g, "ü")
+    .replace(/Ãœ/g, "Ü")
+    .replace(/Ã¸/g, "ø")
+    .replace(/Ã˜/g, "Ø")
+    .replace(/Ã¦/g, "æ")
+    .replace(/Ã†/g, "Æ")
+    .replace(/Ã©/g, "é")
+    .replace(/Ã‰/g, "É")
+    .replace(/Ã¨/g, "è")
+    .replace(/Ã¡/g, "á")
+    .replace(/ÃÁ/g, "Á")
+    .replace(/Ãí/g, "í")
+    .replace(/Ãñ/g, "ñ")
+    .replace(/ÃÑ/g, "Ñ")
+    .replace(/â€™/g, "'")
+    .replace(/â€“/g, "-")
+    .replace(/â€”/g, "-");
+}
+
+function cleanImportedName(value) {
+  return fixCommonMojibake(String(value || ""))
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function parsePlayerField(rawText) {
   const trimmed = String(rawText || "").trim();
   if (!trimmed) {
@@ -363,18 +402,29 @@ function parsePlayerField(rawText) {
   if (lines.length && /(PLAYER|NAME)/i.test(lines[0])) {
     const header = parseCsvRow(lines[0]).map((cell) => cell.toUpperCase());
     const nameIndex = findColumnIndex(header, ["PLAYER", "NAME"]);
-    if (nameIndex === -1) {
-      throw new Error("Player import file must include a PLAYER or NAME column.");
+    const firstNameIndex = findColumnIndex(header, ["FIRST NAME", "FIRST_NAME", "FIRST"]);
+    const lastNameIndex = findColumnIndex(header, ["LAST NAME", "LAST_NAME", "LAST"]);
+
+    if (nameIndex === -1 && (firstNameIndex === -1 || lastNameIndex === -1)) {
+      throw new Error("Player import file must include a PLAYER/NAME column or FIRST NAME and LAST NAME columns.");
     }
 
     names = lines
       .slice(1)
       .map(parseCsvRow)
-      .map((row) => row[nameIndex])
+      .map((row) => {
+        if (nameIndex >= 0) {
+          return row[nameIndex];
+        }
+
+        const firstName = cleanImportedName(row[firstNameIndex]);
+        const lastName = cleanImportedName(row[lastNameIndex]);
+        return `${firstName} ${lastName}`.trim();
+      })
       .filter(Boolean);
   } else {
     names = lines.flatMap((line) => {
-      if (line.includes(",") && !line.includes(" ")) {
+      if (line.includes(",") && !line.includes(", ")) {
         return line.split(",");
       }
       return [line];
@@ -384,7 +434,7 @@ function parsePlayerField(rawText) {
   const deduped = [];
   const seen = new Set();
   names.forEach((name) => {
-    const clean = String(name || "").trim();
+    const clean = cleanImportedName(name);
     if (!clean) return;
     const normalized = normalizeName(clean);
     if (!normalized || seen.has(normalized)) return;
@@ -1158,11 +1208,26 @@ async function init() {
     const storedFieldPlayers = getStoredFieldPlayers();
     const activeLeaderboard = storedLeaderboard ? validateLeaderboardData(storedLeaderboard) : leaderboardFromRepo;
     const activePicks = storedPicks ? normalizePicksData(storedPicks, config) : repoPicks;
-    latestFieldPlayers = Array.isArray(storedFieldPlayers) ? storedFieldPlayers : collectDraftedPlayers(activePicks);
+    latestFieldPlayers = Array.isArray(storedFieldPlayers) ? storedFieldPlayers : [];
+
+    if (!latestFieldPlayers.length) {
+      try {
+        const defaultPlayersText = await loadText(DATA_FILES.players);
+        const defaultPlayers = parsePlayerField(defaultPlayersText);
+        latestFieldPlayers = defaultPlayers;
+        localStorage.setItem(FIELD_STORAGE_KEY, JSON.stringify(defaultPlayers));
+      } catch (fieldError) {
+        console.warn("Unable to preload default player field.", fieldError);
+        latestFieldPlayers = collectDraftedPlayers(activePicks);
+      }
+    }
 
     renderApp(config, activePicks, activeLeaderboard);
 
-    elements.toggleAdmin.addEventListener("click", () => setAdminOpen(true));
+    elements.toggleAdmin.addEventListener("click", () => {
+      const isHidden = elements.adminPanel.classList.contains("hidden");
+      setAdminOpen(isHidden);
+    });
     elements.closeAdmin.addEventListener("click", () => setAdminOpen(false));
     window.addEventListener("resize", applyResponsiveBoardMode);
 
@@ -1249,6 +1314,13 @@ async function init() {
         updatePicksStatus(error.message, true);
       }
     });
+
+    const hasSavedField = latestFieldPlayers.length > 0;
+    const hasAnyPicks = activePicks.entries.some((entry) => entry.picks.length > 0);
+    if (!hasSavedField || !hasAnyPicks) {
+      setAdminOpen(true);
+      updatePicksStatus("Start in the Player Field section to import the U.S. Open field, then build picks for Mike, Gary, and Eames.");
+    }
   } catch (error) {
     console.error(error);
     [elements.mastersBoard, elements.mastersBoardMobile, elements.scoreboard, elements.leaderboard].forEach(renderEmptyState);

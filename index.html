@@ -7,13 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=2026.06.12.01">
+  <link rel="stylesheet" href="./styles.css?v=2026.06.12.02">
 </head>
 <body>
   <div class="page-shell">
     <header class="hero">
       <div class="hero-logo-wrap">
-        <img class="hero-logo" src="./assets/us-open-badge.svg" alt="U.S. Open Shinnecock badge">
+        <img class="hero-logo" src="./assets/US_Open.png" alt="U.S. Open logo">
       </div>
       <div class="hero-copy">
         <h1 id="tournament-name">2026 U.S. Open Pick Scoreboard</h1>
@@ -33,7 +33,8 @@
           <span class="label">Picks Leader</span>
           <strong id="pool-leader">Loading...</strong>
         </div>
-        <button id="toggle-admin" class="ghost-button" type="button">Update Data</button>
+        <button id="toggle-admin" class="ghost-button" type="button">Import Field And Build Picks</button>
+        <p class="hero-helper">Open the panel to import the player field, then choose picks for Mike, Gary, and Eames.</p>
       </div>
     </header>
 
@@ -105,7 +106,7 @@
         <span>Import player file</span>
         <input id="player-field-file-input" type="file" accept=".csv,text/csv,.txt,text/plain">
       </label>
-      <textarea id="player-field-input" spellcheck="false" aria-label="Player field"></textarea>
+      <textarea id="player-field-input" spellcheck="false" aria-label="Player field" placeholder="Paste one player per line, or paste a CSV with a PLAYER or NAME column."></textarea>
       <div class="admin-actions">
         <button id="save-field" type="button">Save field list</button>
       </div>
@@ -140,7 +141,7 @@
         <span>Import leaderboard CSV</span>
         <input id="csv-file-input" type="file" accept=".csv,text/csv">
       </label>
-      <textarea id="leaderboard-input" spellcheck="false" aria-label="Leaderboard JSON"></textarea>
+      <textarea id="leaderboard-input" spellcheck="false" aria-label="Leaderboard JSON" placeholder="Paste leaderboard JSON, pasted rows, or a leaderboard CSV here."></textarea>
       <div class="admin-actions">
         <button id="apply-data" type="button">Apply update</button>
         <button id="publish-data" type="button">Publish leaderboard files</button>
@@ -155,9 +156,9 @@
     </div>
   </template>
 
-  <script src="./data/config.js?v=2026.06.12.01" defer></script>
-  <script src="./data/picks.js?v=2026.06.12.01" defer></script>
-  <script src="./data/leaderboard.js?v=2026.06.12.01" defer></script>
-  <script src="./app.js?v=2026.06.12.01" defer></script>
+  <script src="./data/config.js?v=2026.06.12.02" defer></script>
+  <script src="./data/picks.js?v=2026.06.12.02" defer></script>
+  <script src="./data/leaderboard.js?v=2026.06.12.02" defer></script>
+  <script src="./app.js?v=2026.06.12.02" defer></script>
 </body>
 </html>
