@@ -1,0 +1,149 @@
+First Name,Last Name,Country,Status
+Ludvig,Åberg,Sweden,Professional
+Daniel,Berger,United States,Professional
+Akshay,Bhatia,United States,Professional
+Zac,Blair,United States,Professional
+Keegan,Bradley,United States,Professional
+Michael,Brennan,United States,Professional
+Jacob,Bridgeman,United States,Professional
+Sam,Burns,United States,Professional
+Laurie,Canter,England,Professional
+Patrick,Cantlay,United States,Professional
+Filippo,Celli,Italy,Professional
+Wyndham,Clark,United States,Professional
+Hamilton,Coleman,United States,Amateur
+Corey,Conners,Canada,Professional
+Pierceson,Coody,United States,Professional
+Ugo,Coussaud,France,Professional
+Ryder,Cowan,United States,Amateur
+Jason,Day,Australia,Professional
+Adrien Dumont,de Chassart,Belgium,Professional
+Bryson,DeChambeau,United States,Professional
+Cooper,Dossey,United States,Professional
+Nicolas,Echavarria,Colombia,Professional
+Harris,English,United States,Professional
+Ethan,Fang,United States,Amateur
+Alex,Fitzpatrick,England,Professional
+Matt,Fitzpatrick,England,Professional
+Tommy,Fleetwood,England,Professional
+Marek,Fleming,United States,Amateur
+Rickie,Fowler,United States,Professional
+Ryan,Fox,New Zealand,Professional
+Ryan,Gerard,United States,Professional
+Chris,Gotterup,United States,Professional
+Max,Greyserman,United States,Professional
+Ben,Griffin,United States,Professional
+Emiliano,Grillo,Argentina,Professional
+Harry,Hall,England,Professional
+Cole,Hammer,United States,Professional
+Vaughn,Harber,United States,Amateur
+Nick,Hardy,United States,Professional
+Brian,Harman,United States,Professional
+Padraig,Harman,Ireland,Professional
+Tyrrell,Hatton,England,Professional
+Russell,Henley,United States,Professional
+Lucas,Herbert,Australia,Professional
+Jackson,Herrington,United States,Amateur
+Angel,Hidalgo,Spain,Professional
+Robbie,Higgins,United States,Professional
+Ryo,Hisatsune,Japan,Professional
+Nicolai,Højgaard,Denmark,Professional
+J.B.,Holmes,United States,Professional
+Brandon,Holtz,United States,Amateur
+Billy,Horschel,United States,Professional
+Viktor,Hovland,Norway,Professional
+Mason,Howell,United States,Amateur
+Sungjae,Im,South Korea,Professional
+Ben,James,United States,Professional
+Dustin,Johnson,United States,Professional
+Matthew,Jordan,England,Professional
+Johnny,Keefer,United States,Professional
+Michael,Kim,United States,Professional
+Si Woo,Kim,South Korea,Professional
+T.K.,Kim,South Korea,Professional
+Tom,Kim,South Korea,Professional
+Nathan,Kimsey,England,Professional
+Chris,Kirk,United States,Professional
+Kurt,Kitayama,United States,Professional
+Jake,Knapp,United States,Professional
+Ben,Kohles,United States,Professional
+Brooks,Koepka,United States,Professional
+Jackson,Koivun,United States,Amateur
+Chase,Kyes,United States,Amateur
+Greyson,Leach,United States,Professional
+Eric,Lee,United States,Amateur
+Min Woo,Lee,Australia,Professional
+Shane,Lowry,Ireland,Professional
+Robert,MacIntyre,Scotland,Professional
+Hideki,Matsuyama,Japan,Professional
+Matt,McCarty,United States,Professional
+Graeme,McDowell,Northern Ireland,Professional
+Max,McGreevy,United States,Professional
+Rory,McIlroy,Northern Ireland,Professional
+Maverick,McNealy,United States,Professional
+Keith,Mitchell,United States,Professional
+Taylor,Montgomery,United States,Professional
+Collin,Morikawa,United States,Professional
+William,Mouw,United States,Professional
+Rasmus,Neergaard-Petersen,Denmark,Professional
+James,Nicholas,United States,Professional
+Joaquin,Niemann,Chile,Professional
+Alex,Noren,Sweden,Professional
+Niklas,Norgaard,Denmark,Professional
+Andrew,Novak,United States,Professional
+Jackson,Ormond,United States,Amateur
+Carlos,Ortiz,Mexico,Professional
+John,Parry,England,Professional
+Jake,Peacock,United States,Professional
+Marco,Penge,England,Professional
+Chandler,Phillips,United States,Professional
+Giuseppe,Puebla,United States,Amateur
+David,Puig,Spain,Professional
+Mateo,Pulcini,United States,Amateur
+Andrew,Putnam,United States,Professional
+Jon,Rahm,Spain,Professional
+Aaron,Rai,England,Professional
+Patrick,Reed,United States,Professional
+Logan,Reilly,United States,Amateur
+Kristoffer,Reitan,Norway,Professional
+Rocco Repetto,Taylor,England,Professional
+Matthew,Robles,United States,Amateur
+Patrick,Rodgers,United States,Professional
+Justin,Rose,England,Professional
+Kevin,Roy,United States,Professional
+Marcelo,Rozo,Colombia,Professional
+Miles,Russell,United States,Amateur
+Adrien,Saddier,France,Professional
+Jayden,Schaper,South Africa,Professional
+Xander,Schauffele,United States,Professional
+Scottie,Scheffler,United States,Professional
+Matti,Schmid,Germany,Professional
+Adam,Scott,Australia,Professional
+Manav,Shah,United States,Professional
+Neal,Shipley,United States,Professional
+Ben,Silverman,Canada,Professional
+Alex,Smalley,United States,Professional
+Cameron,Smith,Australia,Professional
+Jake,Sollon,United States,Professional
+J.Y.,Spaun,United States,Professional
+Jordan,Spieth,United States,Professional
+Jimmy,Stanger,United States,Professional
+Sam,Stevens,United States,Professional
+Preston,Stout,United States,Amateur
+Sepp,Straka,Austria,Professional
+Jackson,Suber,United States,Professional
+Caleb,Surratt,United States,Professional
+Arni,Sveinsson,Iceland,Amateur
+Nick,Taylor,Canada,Professional
+Sahith,Theegala,United States,Professional
+Davis,Thompson,United States,Professional
+Justin,Thomas,United States,Professional
+Alejandro,Tosti,Argentina,Professional
+Peter,Uihlein,United States,Professional
+Jackson,Van Paris,United States,Professional
+Gary,Woodland,United States,Professional
+Brandon,Wu,United States,Professional
+Dylan,Wu,United States,Professional
+Sudarshan,Yellamaraju,Canada,Professional
+Cameron,Young,United States,Professional
+Carl,Yuan,China,Professional
