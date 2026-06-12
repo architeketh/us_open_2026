@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.05";
+const APP_VERSION = "2026.06.12.06";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -113,12 +113,30 @@ function normalizeName(value) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
+    .replace(/,\s*[a-z .'-]+$/i, "")
     .replace(/\([^)]+\)/g, "")
     .replace(/\./g, "")
     .replace(/\bcameron young\b/g, "cam young")
     .replace(/\bj j spaun\b/g, "jj spaun")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function sanitizePlayerName(value) {
+  const cleaned = String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleaned.includes(",")) {
+    return cleaned;
+  }
+
+  const row = parseCsvRow(cleaned);
+  if (row.length >= 2) {
+    return row[0].trim();
+  }
+
+  return cleaned.replace(/,\s*[A-Za-z .'-]+$/, "").trim();
 }
 
 function formatScore(value) {
@@ -258,7 +276,7 @@ function normalizeEntry(entry, teamSize) {
   return {
     name: String(entry?.name || "Entry").trim() || "Entry",
     picks: picks
-      .map((pick) => String(pick || "").trim())
+      .map((pick) => sanitizePlayerName(pick))
       .filter(Boolean)
       .slice(0, teamSize)
   };
@@ -330,7 +348,7 @@ function normalizeLeaderboardData(payload) {
 function collectDraftedPlayers(picks) {
   return Array.from(
     new Set(
-      picks.entries.flatMap((entry) => entry.picks.map((name) => name.trim())).filter(Boolean)
+      picks.entries.flatMap((entry) => entry.picks.map((name) => sanitizePlayerName(name))).filter(Boolean)
     )
   );
 }
@@ -457,7 +475,7 @@ function parsePlayerField(rawText) {
   const deduped = [];
   const seen = new Set();
   names.forEach((name) => {
-    const clean = cleanImportedName(name);
+    const clean = sanitizePlayerName(cleanImportedName(name));
     if (!clean) return;
     const normalized = normalizeName(clean);
     if (!normalized || seen.has(normalized)) return;
@@ -1023,7 +1041,9 @@ function updateHeader(config, entries, leaderboard) {
     .map((player) => `${player.name} (${formatScore(parseScoreToPar(player.toPar))})`)
     .join(" / ");
 
-  elements.eventLeader.textContent = leaderboard.tournamentLeaderText || fallbackLeader || "No leaderboard data";
+  const rawLeaderText = String(leaderboard.tournamentLeaderText || "").trim();
+  const malformedLeaderText = !rawLeaderText || rawLeaderText.includes("{") || rawLeaderText.length > 120;
+  elements.eventLeader.textContent = malformedLeaderText ? (fallbackLeader || "No leaderboard data") : rawLeaderText;
   elements.poolLeader.textContent = entries[0]
     ? `${entries[0].name} (${entries[0].hasChampion ? "winner drafted" : formatScore(entries[0].rawScore)})`
     : "No pool entries";
