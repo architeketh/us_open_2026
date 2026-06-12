@@ -5,10 +5,11 @@ import json
 import os
 import re
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from html import unescape
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
@@ -21,6 +22,7 @@ PLAYERS_PATH = DATA_DIR / PLAYERS_FILENAME
 LEADERBOARD_JSON_PATH = DATA_DIR / "leaderboard.json"
 LEADERBOARD_JS_PATH = DATA_DIR / "leaderboard.js"
 SOURCE_URL = os.environ.get("LEADERBOARD_SOURCE_URL", "").strip() or "https://www.usopen.com/2026/scoring.html"
+CENTRAL_TIMEZONE = ZoneInfo("America/Chicago")
 
 
 @dataclass
@@ -446,9 +448,11 @@ def compute_leader_text(rows: list[PlayerRow]) -> str:
 def build_payload(field_players: list[str], source_rows: list[PlayerRow]) -> dict[str, Any]:
     source_lookup = {normalize_name(row.name): row for row in source_rows}
     players = []
+    matched_count = 0
     for name in field_players:
         row = source_lookup.get(normalize_name(name))
         if row:
+            matched_count += 1
             status = row.status or "Live"
             made_cut = "cut" not in status.lower()
             players.append(
@@ -481,11 +485,17 @@ def build_payload(field_players: list[str], source_rows: list[PlayerRow]) -> dic
                 }
             )
 
-    timestamp = datetime.now(timezone.utc).strftime("%B %d, %Y at %I:%M %p UTC")
+    timestamp = datetime.now(CENTRAL_TIMEZONE).strftime("%B %d, %Y at %I:%M %p CT")
     return {
         "lastUpdated": f"Auto-updated on {timestamp}",
         "tournamentLeaderText": compute_leader_text(source_rows),
         "players": players,
+        "_meta": {
+            "sourceUrl": SOURCE_URL,
+            "fieldPlayers": len(field_players),
+            "sourceRows": len(source_rows),
+            "matchedPlayers": matched_count,
+        },
     }
 
 
@@ -498,11 +508,19 @@ def write_payload(payload: dict[str, Any]) -> None:
 
 def main() -> None:
     field_players = load_field_players()
-    payload = fetch_source_payload()
-    rows = choose_rows(payload)
+    source_payload = fetch_source_payload()
+    print(f"Fetched source: {source_payload.url}")
+    print(f"Content-Type: {source_payload.content_type or 'unknown'}")
+    rows = choose_rows(source_payload)
+    print(f"Parsed source rows: {len(rows)}")
     payload = build_payload(field_players, rows)
     write_payload(payload)
-    print(f"Updated leaderboard for {len(payload['players'])} field players from {maybe_convert_google_sheet_url(SOURCE_URL)} using {PLAYERS_FILENAME}")
+    meta = payload.get("_meta", {})
+    print(
+        f"Updated leaderboard for {len(payload['players'])} field players from "
+        f"{maybe_convert_google_sheet_url(SOURCE_URL)} using {PLAYERS_FILENAME}. "
+        f"Matched {meta.get('matchedPlayers', 0)} players."
+    )
 
 
 if __name__ == "__main__":
