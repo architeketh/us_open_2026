@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import json
 import os
 import re
@@ -33,6 +34,13 @@ class PlayerRow:
     status: str = "Not started"
 
 
+@dataclass
+class SourcePayload:
+    url: str
+    text: str
+    content_type: str = ""
+
+
 def normalize_name(value: str) -> str:
     cleaned = value.lower()
     cleaned = (
@@ -51,19 +59,14 @@ def normalize_name(value: str) -> str:
 
 
 def parse_csv_row(line: str) -> list[str]:
-    values: list[str] = []
-    current = ""
-    in_quotes = False
-    for char in line:
-        if char == '"':
-            in_quotes = not in_quotes
-        elif char == "," and not in_quotes:
-            values.append(current.strip())
-            current = ""
-        else:
-            current += char
-    values.append(current.strip())
-    return [value.strip().strip('"') for value in values]
+    return next(csv.reader([line]))
+
+
+def find_column_index(header: list[str], names: list[str]) -> int:
+    try:
+        return next(index for index, cell in enumerate(header) if cell in names)
+    except StopIteration:
+        return -1
 
 
 def load_field_players() -> list[str]:
@@ -98,7 +101,20 @@ def load_field_players() -> list[str]:
     return players
 
 
-def fetch_source_text() -> str:
+def maybe_convert_google_sheet_url(url: str) -> str:
+    converted = url.strip()
+    if "docs.google.com/spreadsheets" not in converted:
+        return converted
+    if "/pubhtml" in converted:
+        converted = converted.replace("/pubhtml", "/pub")
+    if "output=csv" in converted:
+        return converted
+    separator = "&" if "?" in converted else "?"
+    return f"{converted}{separator}gid=0&single=true&output=csv"
+
+
+def fetch_source_payload() -> SourcePayload:
+    source_url = maybe_convert_google_sheet_url(SOURCE_URL)
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -110,9 +126,13 @@ def fetch_source_text() -> str:
         "Cache-Control": "no-cache",
         "Pragma": "no-cache",
     }
-    response = requests.get(SOURCE_URL, headers=headers, timeout=30)
+    response = requests.get(source_url, headers=headers, timeout=30)
     response.raise_for_status()
-    return response.text
+    return SourcePayload(
+        url=source_url,
+        text=response.text,
+        content_type=response.headers.get("content-type", "").lower(),
+    )
 
 
 def dig(obj: Any) -> list[Any]:
@@ -316,15 +336,87 @@ def extract_rows_from_table(html: str) -> list[PlayerRow]:
     return rows
 
 
-def choose_rows(html: str) -> list[PlayerRow]:
-    rows = extract_rows_from_json(html)
+def looks_like_csv_source(payload: SourcePayload) -> bool:
+    text = payload.text.lstrip("\ufeff").strip()
+    if "text/csv" in payload.content_type:
+        return True
+    if payload.url.lower().endswith("output=csv"):
+        return True
+    first_line = text.splitlines()[0] if text else ""
+    header = [cell.upper() for cell in parse_csv_row(first_line)]
+    return bool(header) and ("PLAYER" in header or "NAME" in header)
+
+
+def extract_rows_from_csv(payload: SourcePayload) -> list[PlayerRow]:
+    text = payload.text.lstrip("\ufeff").strip()
+    if not text:
+        return []
+
+    lines = [line for line in text.splitlines() if line.strip()]
+    if len(lines) < 2:
+        return []
+
+    header = [cell.upper() for cell in parse_csv_row(lines[0])]
+    player_idx = find_column_index(header, ["PLAYER", "NAME"])
+    if player_idx == -1:
+        return []
+
+    position_idx = find_column_index(header, ["POS", "POSITION", "PLACE"])
+    to_par_idx = find_column_index(header, ["TO PAR", "TO_PAR", "TOPAR", "SCORE", "TOTAL"])
+    today_idx = find_column_index(header, ["TODAY", "ROUND", "R1", "ROUND 1"])
+    thru_idx = find_column_index(header, ["THRU", "THROUGH"])
+    tee_time_idx = find_column_index(header, ["TEE TIME", "TEE_TIME", "TEETIME"])
+    status_idx = find_column_index(header, ["STATUS"])
+
+    rows: list[PlayerRow] = []
+    seen: set[str] = set()
+
+    for raw_line in lines[1:]:
+        row = parse_csv_row(raw_line)
+        if player_idx >= len(row):
+            continue
+        name = unescape(row[player_idx]).strip()
+        if not name:
+            continue
+
+        key = normalize_name(name)
+        if key in seen:
+            continue
+        seen.add(key)
+
+        rows.append(
+            PlayerRow(
+                name=name,
+                position=row[position_idx].strip() if 0 <= position_idx < len(row) and row[position_idx].strip() else "-",
+                to_par=row[to_par_idx].strip().upper() if 0 <= to_par_idx < len(row) and row[to_par_idx].strip() else "E",
+                today=row[today_idx].strip().upper() if 0 <= today_idx < len(row) and row[today_idx].strip() else "-",
+                thru=row[thru_idx].strip().upper() if 0 <= thru_idx < len(row) and row[thru_idx].strip() else "--",
+                tee_time=row[tee_time_idx].strip() if 0 <= tee_time_idx < len(row) and row[tee_time_idx].strip() else "--",
+                status=row[status_idx].strip() if 0 <= status_idx < len(row) and row[status_idx].strip() else "Live",
+            )
+        )
+
+    return rows
+
+
+def choose_rows(payload: SourcePayload) -> list[PlayerRow]:
+    if looks_like_csv_source(payload):
+        rows = extract_rows_from_csv(payload)
+        if rows:
+            return rows
+        raise RuntimeError(
+            f"Unable to extract leaderboard rows from CSV source {payload.url}. "
+            "Make sure the sheet includes a PLAYER or NAME column."
+        )
+
+    rows = extract_rows_from_json(payload.text)
     if rows:
         return rows
-    rows = extract_rows_from_table(html)
+    rows = extract_rows_from_table(payload.text)
     if rows:
         return rows
     raise RuntimeError(
-        f"Unable to extract leaderboard rows from {SOURCE_URL}. "
+        f"Unable to extract leaderboard rows from {payload.url}. "
         "Set the LEADERBOARD_SOURCE_URL repo variable to a source page with visible leaderboard data."
     )
 
@@ -406,11 +498,11 @@ def write_payload(payload: dict[str, Any]) -> None:
 
 def main() -> None:
     field_players = load_field_players()
-    html = fetch_source_text()
-    rows = choose_rows(html)
+    payload = fetch_source_payload()
+    rows = choose_rows(payload)
     payload = build_payload(field_players, rows)
     write_payload(payload)
-    print(f"Updated leaderboard for {len(payload['players'])} field players from {SOURCE_URL} using {PLAYERS_FILENAME}")
+    print(f"Updated leaderboard for {len(payload['players'])} field players from {maybe_convert_google_sheet_url(SOURCE_URL)} using {PLAYERS_FILENAME}")
 
 
 if __name__ == "__main__":
