@@ -142,14 +142,18 @@ def get_nested_text(obj: Any, *paths: tuple[str, ...]) -> str:
 
 
 def coerce_row(item: dict[str, Any]) -> PlayerRow | None:
+    first_name = get_nested_text(item, ("firstName",), ("player", "firstName"), ("athlete", "firstName"))
+    last_name = get_nested_text(item, ("lastName",), ("player", "lastName"), ("athlete", "lastName"))
     name = get_nested_text(
         item,
         ("name",),
-        ("player",),
         ("displayName",),
+        ("player", "displayName"),
         ("athlete", "displayName"),
         ("competitor", "displayName"),
     )
+    if not name and (first_name or last_name):
+        name = f"{first_name} {last_name}".strip()
     if not name:
         return None
 
@@ -159,6 +163,19 @@ def coerce_row(item: dict[str, Any]) -> PlayerRow | None:
     thru = get_nested_text(item, ("thru",), ("through",), ("holesCompleted",)) or "--"
     tee_time = get_nested_text(item, ("teeTime",), ("tee_time",), ("teetime",)) or "--"
     status = get_nested_text(item, ("status",), ("state",), ("roundStatus",)) or "Live"
+
+    # Ignore general player/profile objects that are not actual leaderboard rows.
+    has_leaderboard_shape = any(
+        value not in ("", None)
+        for value in (
+            get_nested_text(item, ("toPar",), ("to_par",), ("score",), ("total",)),
+            get_nested_text(item, ("position",), ("pos",), ("rank",), ("place",)),
+            get_nested_text(item, ("today",), ("roundScore",), ("currentRoundScore",)),
+            get_nested_text(item, ("thru",), ("through",), ("holesCompleted",)),
+        )
+    )
+    if not has_leaderboard_shape:
+        return None
 
     return PlayerRow(
         name=unescape(name),
