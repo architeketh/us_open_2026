@@ -1,0 +1,17 @@
+window.US_OPEN_CONFIG = {
+  tournament: {
+    name: "2026 U.S. Open Pick Scoreboard",
+    subtitle: "A static GitHub-hosted pool board for U.S. Open week with editable picks and leaderboard data.",
+    dates: "June 18-21, 2026",
+    venue: "Shinnecock Hills Golf Club, Southampton, New York"
+  },
+  scoring: {
+    teamSize: 7,
+    countBest: 4,
+    bonuses: {
+      champion: 3,
+      top10: 1,
+      madeCut: 1
+    }
+  }
+};
