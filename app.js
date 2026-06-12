@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.04";
+const APP_VERSION = "2026.06.12.05";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -41,6 +41,7 @@ const elements = {
   applyData: document.getElementById("apply-data"),
   publishData: document.getElementById("publish-data"),
   saveField: document.getElementById("save-field"),
+  resetLocalData: document.getElementById("reset-local-data"),
   savePicks: document.getElementById("save-picks"),
   publishPicks: document.getElementById("publish-picks"),
   clearPicks: document.getElementById("clear-picks"),
@@ -1110,6 +1111,13 @@ function savePicksToStorage(picks) {
   localStorage.setItem(PICKS_STORAGE_KEY, JSON.stringify(picks));
 }
 
+function resetLocalAppData() {
+  localStorage.removeItem(LEADERBOARD_STORAGE_KEY);
+  localStorage.removeItem(PICKS_STORAGE_KEY);
+  localStorage.removeItem(FIELD_STORAGE_KEY);
+  window.location.reload();
+}
+
 function handlePickSelectionChange(event) {
   const select = event.currentTarget;
   const entryIndex = Number(select.getAttribute("data-entry-index"));
@@ -1304,6 +1312,10 @@ async function init() {
       } catch (error) {
         updatePicksStatus(error.message, true);
       }
+    });
+
+    elements.resetLocalData.addEventListener("click", () => {
+      resetLocalAppData();
     });
 
     elements.savePicks.addEventListener("click", () => {
