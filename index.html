@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 U.S. Open Pick Scoreboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=2026.06.12.01">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-logo-wrap">
+        <img class="hero-logo" src="./assets/us-open-badge.svg" alt="U.S. Open Shinnecock badge">
+      </div>
+      <div class="hero-copy">
+        <h1 id="tournament-name">2026 U.S. Open Pick Scoreboard</h1>
+        <p id="tournament-subtitle" class="hero-subtitle">Live-style pool standings for U.S. Open week at Shinnecock Hills.</p>
+        <div class="hero-meta">
+          <span id="tournament-dates">June 18-21, 2026</span>
+          <span id="tournament-venue">Shinnecock Hills Golf Club, Southampton, New York</span>
+          <span id="scores-last-updated">Scores last updated: waiting for data</span>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="hero-stat">
+          <span class="label">Tournament Leader</span>
+          <strong id="event-leader">Loading...</strong>
+        </div>
+        <div class="hero-stat">
+          <span class="label">Picks Leader</span>
+          <strong id="pool-leader">Loading...</strong>
+        </div>
+        <button id="toggle-admin" class="ghost-button" type="button">Update Data</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="masters-board-shell">
+        <div class="masters-board-title">
+          <p class="board-kicker">Pool Board</p>
+          <h2>2026 U.S. Open Leaders</h2>
+        </div>
+        <div class="masters-board-frame">
+          <div class="board-meta-row">
+            <span id="board-update">Scores last updated: waiting for data</span>
+            <span id="board-player-count">21 drafted golfers</span>
+          </div>
+          <div id="masters-board" class="board-table-wrap"></div>
+          <div id="masters-board-mobile" class="mobile-board-list"></div>
+          <div class="board-footer">
+            <span>Shinnecock-inspired pool leaderboard</span>
+            <span id="board-version">Build --</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid two-column">
+        <article class="card">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Pool Standings</p>
+              <h2>Scoreboard</h2>
+            </div>
+            <p class="muted">Best 4 golfers total score.</p>
+          </div>
+          <div id="scoreboard" class="table-wrap"></div>
+        </article>
+
+        <article class="card">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Pool Snapshot</p>
+              <h2>Current Drafted Top 5</h2>
+            </div>
+            <p class="muted">Top five drafted golfers by live score.</p>
+          </div>
+          <div id="leaderboard" class="table-wrap"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <aside id="admin-panel" class="admin-panel hidden" aria-hidden="true">
+    <div class="admin-header">
+      <div>
+        <p class="section-label">Admin</p>
+        <h2>Manage field, picks, and leaderboard</h2>
+      </div>
+      <button id="close-admin" class="ghost-button" type="button">Close</button>
+    </div>
+
+    <section class="admin-section">
+      <div class="admin-section-heading">
+        <div>
+          <p class="section-label">Player Field</p>
+          <h3>Import the 2026 U.S. Open field</h3>
+        </div>
+        <span id="field-count" class="admin-badge">No player field loaded yet</span>
+      </div>
+      <p class="muted admin-copy">Paste one player per line, or import a CSV with a <code>PLAYER</code> or <code>NAME</code> column. This list powers the pick selectors for Mike, Gary, and Eames.</p>
+      <label class="file-picker" for="player-field-file-input">
+        <span>Import player file</span>
+        <input id="player-field-file-input" type="file" accept=".csv,text/csv,.txt,text/plain">
+      </label>
+      <textarea id="player-field-input" spellcheck="false" aria-label="Player field"></textarea>
+      <div class="admin-actions">
+        <button id="save-field" type="button">Save field list</button>
+      </div>
+    </section>
+
+    <section class="admin-section">
+      <div class="admin-section-heading">
+        <div>
+          <p class="section-label">Pick Builder</p>
+          <h3>Select players for Mike, Gary, and Eames</h3>
+        </div>
+      </div>
+      <p class="muted admin-copy">Once the field is loaded, use the selectors below to build all three entries in the browser. You can export <code>picks.json</code> and <code>picks.js</code> any time.</p>
+      <div id="entry-builder" class="entry-builder"></div>
+      <div class="admin-actions">
+        <button id="save-picks" type="button">Save picks</button>
+        <button id="publish-picks" type="button">Publish picks files</button>
+        <button id="clear-picks" class="ghost-button" type="button">Clear picks</button>
+      </div>
+      <p id="picks-status" class="muted"></p>
+    </section>
+
+    <section class="admin-section">
+      <div class="admin-section-heading">
+        <div>
+          <p class="section-label">Leaderboard</p>
+          <h3>Paste updated leaderboard data</h3>
+        </div>
+      </div>
+      <p class="muted admin-copy">Paste JSON, pasted leaderboard rows, or a CSV with <code>PLAYER</code> plus any of <code>TEE TIME</code>, <code>POS</code>, <code>TO PAR</code>, <code>TODAY</code>, <code>THRU</code>, or <code>STATUS</code>. The importer will match your drafted golfers and save the update in this browser.</p>
+      <label class="file-picker" for="csv-file-input">
+        <span>Import leaderboard CSV</span>
+        <input id="csv-file-input" type="file" accept=".csv,text/csv">
+      </label>
+      <textarea id="leaderboard-input" spellcheck="false" aria-label="Leaderboard JSON"></textarea>
+      <div class="admin-actions">
+        <button id="apply-data" type="button">Apply update</button>
+        <button id="publish-data" type="button">Publish leaderboard files</button>
+      </div>
+      <p id="admin-status" class="muted"></p>
+    </section>
+  </aside>
+
+  <template id="empty-state-template">
+    <div class="empty-state">
+      <p>No data available yet.</p>
+    </div>
+  </template>
+
+  <script src="./data/config.js?v=2026.06.12.01" defer></script>
+  <script src="./data/picks.js?v=2026.06.12.01" defer></script>
+  <script src="./data/leaderboard.js?v=2026.06.12.01" defer></script>
+  <script src="./app.js?v=2026.06.12.01" defer></script>
+</body>
+</html>
