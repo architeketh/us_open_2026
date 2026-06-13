@@ -1,6 +1,6 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 13, 2026 at 04:14 PM CT",
-  "tournamentLeaderText": "Jesper Svensson (-13) / Jackson Suber (-13)",
+  "lastUpdated": "Auto-updated on June 13, 2026 at 04:29 PM CT",
+  "tournamentLeaderText": "Jesper Svensson (-13)",
   "players": [
     {
       "name": "Matthew Anderson",
@@ -31,7 +31,7 @@ window.US_OPEN_LEADERBOARD = {
       "position": "T7",
       "toPar": "-10",
       "today": "-1",
-      "thru": "14",
+      "thru": "15",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
@@ -40,7 +40,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Jacob Bridgeman",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-6",
       "thru": "F",
@@ -112,7 +112,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Matt Fitzpatrick",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-4",
       "thru": "F",
@@ -127,19 +127,19 @@ window.US_OPEN_LEADERBOARD = {
       "position": "T4",
       "toPar": "-11",
       "today": "-3",
-      "thru": "17",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -11
     },
     {
       "name": "Ryan Fox",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-1",
-      "thru": "16",
+      "thru": "17",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
@@ -196,7 +196,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Viktor Hovland",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-6",
       "thru": "F",
@@ -223,7 +223,7 @@ window.US_OPEN_LEADERBOARD = {
       "position": "T32",
       "toPar": "-6",
       "today": "+2",
-      "thru": "16",
+      "thru": "17",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
@@ -244,7 +244,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Shane Lowry",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-3",
       "thru": "F",
@@ -484,7 +484,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Jesper Svensson",
-      "position": "T1",
+      "position": "1",
       "toPar": "-13",
       "today": "-4",
       "thru": "16",
@@ -496,7 +496,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Sahith Theegala",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-2",
       "thru": "F",
@@ -508,7 +508,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Robert MacIntyre",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-3",
       "thru": "F",
@@ -532,7 +532,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Johnny Keefer",
-      "position": "T55",
+      "position": "T56",
       "toPar": "-3",
       "today": "+3",
       "thru": "F",
@@ -556,15 +556,15 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Jackson Suber",
-      "position": "T1",
-      "toPar": "-13",
-      "today": "-4",
-      "thru": "15",
+      "position": "T2",
+      "toPar": "-12",
+      "today": "-3",
+      "thru": "16",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": -13
+      "scoreToPar": -12
     },
     {
       "name": "Li Haotong",
@@ -604,7 +604,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "David Skinns",
-      "position": "T10",
+      "position": "T11",
       "toPar": "-9",
       "today": "-5",
       "thru": "F",
@@ -616,15 +616,15 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Jimmy Stanger",
-      "position": "T10",
-      "toPar": "-9",
-      "today": "-1",
-      "thru": "17",
+      "position": "T7",
+      "toPar": "-10",
+      "today": "-2",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": -9
+      "scoreToPar": -10
     },
     {
       "name": "Chandler Phillips",
@@ -664,7 +664,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Patrick Fishburn",
-      "position": "T55",
+      "position": "T56",
       "toPar": "-3",
       "today": "+3",
       "thru": "F",
@@ -856,7 +856,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Dylan Wu",
-      "position": "T55",
+      "position": "T56",
       "toPar": "-3",
       "today": "+1",
       "thru": "F",
@@ -1000,7 +1000,7 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Keita Nakajima",
-      "position": "T55",
+      "position": "T56",
       "toPar": "-3",
       "today": "E",
       "thru": "F",
@@ -1120,12 +1120,12 @@ window.US_OPEN_LEADERBOARD = {
     },
     {
       "name": "Bud Cauley",
-      "position": "3",
+      "position": "T2",
       "toPar": "-12",
       "today": "-4",
-      "thru": "17",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -12
