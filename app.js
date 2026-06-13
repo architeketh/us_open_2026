@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.12";
+const APP_VERSION = "2026.06.12.13";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -44,6 +44,7 @@ const elements = {
   closeAdmin: document.getElementById("close-admin"),
   applyData: document.getElementById("apply-data"),
   publishData: document.getElementById("publish-data"),
+  openWorkflow: document.getElementById("open-workflow"),
   saveField: document.getElementById("save-field"),
   resetLocalData: document.getElementById("reset-local-data"),
   savePicks: document.getElementById("save-picks"),
@@ -171,6 +172,11 @@ function formatScore(value) {
 function formatLastUpdated(value) {
   if (!value) return "waiting for data";
   return value;
+}
+
+function getUpdateWorkflowUrl(config) {
+  const workflowUrl = config?.automation?.updateWorkflowUrl;
+  return typeof workflowUrl === "string" && workflowUrl.trim() ? workflowUrl.trim() : "";
 }
 
 function formatCentralTimeStamp(prefix) {
@@ -1104,6 +1110,15 @@ function seedAdminEditor() {
   elements.leaderboardInput.placeholder = "Paste JSON, leaderboard rows, or CSV here.";
 }
 
+function updateWorkflowButtonState(config) {
+  if (!elements.openWorkflow) return;
+  const workflowUrl = getUpdateWorkflowUrl(config);
+  elements.openWorkflow.disabled = !workflowUrl;
+  elements.openWorkflow.title = workflowUrl
+    ? "Open the GitHub Actions page for the leaderboard updater."
+    : "Add automation.updateWorkflowUrl to data/config.json to enable this button.";
+}
+
 function renderFieldStatus() {
   elements.fieldCount.textContent = latestFieldPlayers.length
     ? `${latestFieldPlayers.length} players loaded`
@@ -1261,6 +1276,7 @@ function renderApp(config, picks, leaderboard) {
   renderFieldStatus();
   renderFieldPreview(latestFieldPlayers);
   renderEntryBuilder(normalizedPicks, config);
+  updateWorkflowButtonState(config);
   seedAdminEditor();
 }
 
@@ -1401,6 +1417,17 @@ async function init() {
       } catch (error) {
         elements.adminStatus.textContent = error.message;
       }
+    });
+
+    elements.openWorkflow.addEventListener("click", () => {
+      const workflowUrl = getUpdateWorkflowUrl(latestConfig || config);
+      if (!workflowUrl) {
+        elements.adminStatus.textContent = "Add automation.updateWorkflowUrl to data/config.json to enable this shortcut.";
+        return;
+      }
+
+      window.open(workflowUrl, "_blank", "noopener,noreferrer");
+      elements.adminStatus.textContent = "Opened the GitHub Actions workflow page in a new tab.";
     });
 
     elements.saveField.addEventListener("click", () => {
