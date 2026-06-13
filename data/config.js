@@ -13,5 +13,8 @@ window.US_OPEN_CONFIG = {
       top10: 1,
       madeCut: 1
     }
+  },
+  automation: {
+    updateWorkflowUrl: "https://github.com/architeketh/us_open_2026/actions/workflows/update-leaderboard.yml"
   }
 };
