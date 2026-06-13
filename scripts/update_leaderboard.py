@@ -178,8 +178,9 @@ def looks_like_tee_time(value: str) -> bool:
     return bool(re.fullmatch(r"\d{1,2}:\d{2}\s*(AM|PM)", text))
 
 
-def derive_status(thru_value: str, fallback: str = "Live") -> str:
+def derive_status(thru_value: str, tee_time_value: str = "--", fallback: str = "Live") -> str:
     text = str(thru_value).strip().upper()
+    tee_text = str(tee_time_value).strip().upper()
     if text == "CUT":
         return "Cut"
     if text == "WD":
@@ -188,6 +189,8 @@ def derive_status(thru_value: str, fallback: str = "Live") -> str:
         return "DQ"
     if text == "F":
         return "Finished"
+    if tee_text not in ("", "--") and text in ("", "--"):
+        return "Tee time posted"
     return fallback
 
 
@@ -422,7 +425,7 @@ def extract_rows_from_csv(payload: SourcePayload) -> list[PlayerRow]:
                 today=row[today_idx].strip().upper() if 0 <= today_idx < len(row) and row[today_idx].strip() else "-",
                 thru=normalized_thru,
                 tee_time=normalized_tee_time,
-                status=derive_status(normalized_thru, fallback_status),
+                status=derive_status(normalized_thru, normalized_tee_time, fallback_status),
             )
         )
 
