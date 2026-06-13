@@ -173,6 +173,24 @@ def looks_like_score(value: str) -> bool:
     return bool(re.fullmatch(r"(E|[+-]?\d+|-|CUT|WD|DQ)", text))
 
 
+def looks_like_tee_time(value: str) -> bool:
+    text = str(value).strip().upper()
+    return bool(re.fullmatch(r"\d{1,2}:\d{2}\s*(AM|PM)", text))
+
+
+def derive_status(thru_value: str, fallback: str = "Live") -> str:
+    text = str(thru_value).strip().upper()
+    if text == "CUT":
+        return "Cut"
+    if text == "WD":
+        return "WD"
+    if text == "DQ":
+        return "DQ"
+    if text == "F":
+        return "Finished"
+    return fallback
+
+
 def coerce_row(item: dict[str, Any]) -> PlayerRow | None:
     first_name = get_nested_text(item, ("firstName",), ("player", "firstName"), ("athlete", "firstName"))
     last_name = get_nested_text(item, ("lastName",), ("player", "lastName"), ("athlete", "lastName"))
@@ -386,15 +404,25 @@ def extract_rows_from_csv(payload: SourcePayload) -> list[PlayerRow]:
             continue
         seen.add(key)
 
+        raw_thru = row[thru_idx].strip().upper() if 0 <= thru_idx < len(row) and row[thru_idx].strip() else "--"
+        raw_tee_time = row[tee_time_idx].strip() if 0 <= tee_time_idx < len(row) and row[tee_time_idx].strip() else "--"
+        normalized_tee_time = raw_tee_time
+        normalized_thru = raw_thru
+        if looks_like_tee_time(raw_thru) and raw_tee_time == "--":
+            normalized_tee_time = raw_thru
+            normalized_thru = "--"
+
+        fallback_status = row[status_idx].strip() if 0 <= status_idx < len(row) and row[status_idx].strip() else "Live"
+
         rows.append(
             PlayerRow(
                 name=name,
                 position=row[position_idx].strip() if 0 <= position_idx < len(row) and row[position_idx].strip() else "-",
                 to_par=row[to_par_idx].strip().upper() if 0 <= to_par_idx < len(row) and row[to_par_idx].strip() else "E",
                 today=row[today_idx].strip().upper() if 0 <= today_idx < len(row) and row[today_idx].strip() else "-",
-                thru=row[thru_idx].strip().upper() if 0 <= thru_idx < len(row) and row[thru_idx].strip() else "--",
-                tee_time=row[tee_time_idx].strip() if 0 <= tee_time_idx < len(row) and row[tee_time_idx].strip() else "--",
-                status=row[status_idx].strip() if 0 <= status_idx < len(row) and row[status_idx].strip() else "Live",
+                thru=normalized_thru,
+                tee_time=normalized_tee_time,
+                status=derive_status(normalized_thru, fallback_status),
             )
         )
 
