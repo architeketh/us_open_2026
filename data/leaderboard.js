@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 12, 2026 at 11:03 PM CT",
+  "lastUpdated": "Auto-updated on June 13, 2026 at 01:15 AM CT",
   "tournamentLeaderText": "Ben James (-10)",
   "players": [
     {
