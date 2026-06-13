@@ -895,13 +895,18 @@ function renderScoreboard(entries) {
   `;
 }
 
-function renderLeaderboard(players) {
-  if (!players || !players.length) {
+function renderLeaderboard(players, picks) {
+  if (!players || !players.length || !picks) {
     renderEmptyState(elements.leaderboard);
     return;
   }
 
+  const draftedLookup = new Set(
+    collectDraftedPlayers(picks).map((name) => normalizeName(name))
+  );
+
   const topFive = players
+    .filter((player) => draftedLookup.has(normalizeName(player.name)))
     .filter((player) => hasLiveRoundData(player))
     .slice()
     .sort((a, b) => {
@@ -1252,7 +1257,7 @@ function renderApp(config, picks, leaderboard) {
   updateHeader(config, entries, normalizedLeaderboard);
   renderMastersBoard(entries);
   renderScoreboard(entries);
-  renderLeaderboard(normalizedLeaderboard.players);
+  renderLeaderboard(normalizedLeaderboard.players, normalizedPicks);
   renderFieldStatus();
   renderFieldPreview(latestFieldPlayers);
   renderEntryBuilder(normalizedPicks, config);
