@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.13";
+const APP_VERSION = "2026.06.12.14";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -21,6 +21,7 @@ const elements = {
   poolLeader: document.getElementById("pool-leader"),
   boardUpdate: document.getElementById("board-update"),
   boardUpdateBadge: document.getElementById("board-update-badge"),
+  dataSourceBadge: document.getElementById("data-source-badge"),
   scoresLastUpdated: document.getElementById("scores-last-updated"),
   boardPlayerCount: document.getElementById("board-player-count"),
   boardVersion: document.getElementById("board-version"),
@@ -172,6 +173,21 @@ function formatScore(value) {
 function formatLastUpdated(value) {
   if (!value) return "waiting for data";
   return value;
+}
+
+function updateDataSourceBadge({ hasStoredLeaderboard = false } = {}) {
+  if (!elements.dataSourceBadge) return;
+
+  if (hasStoredLeaderboard) {
+    elements.dataSourceBadge.textContent = "Using local override";
+    elements.dataSourceBadge.classList.remove("repo");
+    elements.dataSourceBadge.classList.add("local");
+    return;
+  }
+
+  elements.dataSourceBadge.textContent = "Using repo feed";
+  elements.dataSourceBadge.classList.remove("local");
+  elements.dataSourceBadge.classList.add("repo");
 }
 
 function getUpdateWorkflowUrl(config) {
@@ -1242,7 +1258,9 @@ function handlePickSelectionChange(event) {
   }));
 
   savePicksToStorage(nextPicks);
-  renderApp(latestConfig, nextPicks, latestLeaderboard);
+  renderApp(latestConfig, nextPicks, latestLeaderboard, {
+    hasStoredLeaderboard: Boolean(getStoredLeaderboard())
+  });
   renderEntryBuilder(nextPicks, latestConfig);
   updatePicksStatus("Pick updated in this browser.");
 }
@@ -1255,12 +1273,14 @@ function clearAllPicks() {
     }))
   };
   savePicksToStorage(cleared);
-  renderApp(latestConfig, cleared, latestLeaderboard);
+  renderApp(latestConfig, cleared, latestLeaderboard, {
+    hasStoredLeaderboard: Boolean(getStoredLeaderboard())
+  });
   renderEntryBuilder(cleared, latestConfig);
   updatePicksStatus("Cleared all picks for Mike, Gary, and Eames.");
 }
 
-function renderApp(config, picks, leaderboard) {
+function renderApp(config, picks, leaderboard, options = {}) {
   const normalizedPicks = normalizePicksData(picks, config);
   const normalizedLeaderboard = normalizeLeaderboardData(leaderboard);
   const lookup = buildLookup(normalizedLeaderboard.players);
@@ -1277,6 +1297,7 @@ function renderApp(config, picks, leaderboard) {
   renderFieldPreview(latestFieldPlayers);
   renderEntryBuilder(normalizedPicks, config);
   updateWorkflowButtonState(config);
+  updateDataSourceBadge(options);
   seedAdminEditor();
 }
 
@@ -1314,7 +1335,9 @@ async function refreshLeaderboardFromRepo() {
     }
 
     repoLeaderboard = normalized;
-    renderApp(latestConfig, latestPicks, normalized);
+    renderApp(latestConfig, latestPicks, normalized, {
+      hasStoredLeaderboard: false
+    });
   } catch (error) {
     console.warn("Unable to refresh leaderboard from repo.", error);
   }
@@ -1377,7 +1400,9 @@ async function init() {
       }
     }
 
-    renderApp(config, activePicks, activeLeaderboard);
+    renderApp(config, activePicks, activeLeaderboard, {
+      hasStoredLeaderboard: Boolean(storedLeaderboard)
+    });
 
     elements.toggleAdmin.addEventListener("click", () => {
       const isHidden = elements.adminPanel.classList.contains("hidden");
@@ -1403,7 +1428,9 @@ async function init() {
         const parsed = parseAdminInput(rawInput, latestLeaderboard || repoLeaderboard, latestPicks || activePicks);
 
         localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(parsed));
-        renderApp(config, latestPicks || activePicks, parsed);
+        renderApp(config, latestPicks || activePicks, parsed, {
+          hasStoredLeaderboard: true
+        });
         elements.adminStatus.textContent = "Leaderboard update applied in this browser.";
       } catch (error) {
         elements.adminStatus.textContent = error.message;
@@ -1447,7 +1474,9 @@ async function init() {
 
     elements.savePicks.addEventListener("click", () => {
       savePicksToStorage(latestPicks);
-      renderApp(config, latestPicks, latestLeaderboard);
+      renderApp(config, latestPicks, latestLeaderboard, {
+        hasStoredLeaderboard: Boolean(getStoredLeaderboard())
+      });
       updatePicksStatus("Picks saved in this browser.");
     });
 
@@ -1474,7 +1503,9 @@ async function init() {
         const parsed = parseLeaderboardCsv(csvText, latestLeaderboard || repoLeaderboard, latestPicks || activePicks);
 
         localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(parsed));
-        renderApp(config, latestPicks || activePicks, parsed);
+        renderApp(config, latestPicks || activePicks, parsed, {
+          hasStoredLeaderboard: true
+        });
         elements.adminStatus.textContent = `Imported CSV update from ${file.name}.`;
         event.target.value = "";
       } catch (error) {

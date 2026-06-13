@@ -263,6 +263,30 @@ button:hover,
   font-weight: 700;
 }
 
+.data-source-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.data-source-badge.repo {
+  background: rgba(15, 106, 59, 0.12);
+  border-color: rgba(15, 106, 59, 0.18);
+  color: #0f6a3b;
+}
+
+.data-source-badge.local {
+  background: rgba(181, 79, 44, 0.14);
+  border-color: rgba(181, 79, 44, 0.22);
+  color: #8f3d22;
+}
+
 .board-kicker {
   margin: 0 0 8px;
   text-transform: uppercase;
