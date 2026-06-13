@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 12, 2026 at 10:26 PM CT",
+  "lastUpdated": "Auto-updated on June 12, 2026 at 11:03 PM CT",
   "tournamentLeaderText": "Ben James (-10)",
   "players": [
     {
@@ -9,7 +9,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "12:30 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -7
@@ -33,7 +33,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "1:45 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -9
@@ -45,7 +45,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "8:55 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -69,7 +69,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "10:20 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -81,7 +81,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "8:35 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -93,7 +93,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+3",
       "thru": "--",
       "teeTime": "7:40 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -105,7 +105,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "11:15 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -117,7 +117,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "10:45 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -129,7 +129,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-5",
       "thru": "--",
       "teeTime": "1:05 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -8
@@ -141,7 +141,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-4",
       "thru": "--",
       "teeTime": "1:15 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -8
@@ -153,7 +153,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "9:40 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -189,7 +189,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "11:15 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -201,7 +201,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "9:05 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -225,7 +225,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "1:15 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -8
@@ -249,7 +249,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "12:10 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -285,7 +285,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-5",
       "thru": "--",
       "teeTime": "10:55 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -333,7 +333,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "12:20 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -7
@@ -369,7 +369,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "7:15 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -381,7 +381,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "7:20 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -429,7 +429,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "10:10 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -453,7 +453,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+3",
       "thru": "--",
       "teeTime": "7:50 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -465,7 +465,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "12:30 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -7
@@ -489,7 +489,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-5",
       "thru": "--",
       "teeTime": "1:25 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -9
@@ -501,7 +501,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "12:20 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -7
@@ -513,7 +513,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-4",
       "thru": "--",
       "teeTime": "12:10 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -525,7 +525,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "12:40 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -7
@@ -537,7 +537,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "12:00 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -549,7 +549,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "12:00 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -561,7 +561,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-5",
       "thru": "--",
       "teeTime": "1:35 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -9
@@ -585,7 +585,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "10:55 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -597,7 +597,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+1",
       "thru": "--",
       "teeTime": "10:00 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -609,7 +609,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+1",
       "thru": "--",
       "teeTime": "9:50 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -621,7 +621,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-3",
       "thru": "--",
       "teeTime": "12:55 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -8
@@ -633,7 +633,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "11:25 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -645,7 +645,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-4",
       "thru": "--",
       "teeTime": "11:05 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -657,7 +657,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "11:50 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -669,7 +669,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "11:50 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -693,7 +693,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "11:35 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -705,7 +705,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "10:00 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -717,7 +717,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+1",
       "thru": "--",
       "teeTime": "10:30 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -729,7 +729,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "10:20 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -741,7 +741,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "11:05 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -765,7 +765,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-6",
       "thru": "--",
       "teeTime": "1:25 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -9
@@ -789,7 +789,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "8:55 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -801,7 +801,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+1",
       "thru": "--",
       "teeTime": "7:20 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -825,7 +825,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "8:00 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -849,7 +849,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "9:15 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -861,7 +861,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "10:10 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -4
@@ -873,7 +873,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "9:05 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -885,7 +885,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-4",
       "thru": "--",
       "teeTime": "11:25 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -897,7 +897,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "7:30 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -921,7 +921,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "8:45 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -945,7 +945,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "9:50 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -957,7 +957,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "9:40 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -969,7 +969,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+1",
       "thru": "--",
       "teeTime": "8:25 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -981,7 +981,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "8:10 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -1005,7 +1005,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-4",
       "thru": "--",
       "teeTime": "9:25 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -1029,7 +1029,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "E",
       "thru": "--",
       "teeTime": "9:15 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -1077,7 +1077,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-4",
       "thru": "--",
       "teeTime": "10:45 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -1113,7 +1113,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "7:30 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -1125,7 +1125,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-7",
       "thru": "--",
       "teeTime": "1:05 PM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -8
@@ -1149,7 +1149,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "8:35 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -3
@@ -1161,7 +1161,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-4",
       "thru": "--",
       "teeTime": "10:30 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -5
@@ -1197,7 +1197,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+1",
       "thru": "--",
       "teeTime": "8:25 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -1221,7 +1221,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "+1",
       "thru": "--",
       "teeTime": "8:10 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -1257,7 +1257,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-1",
       "thru": "--",
       "teeTime": "8:00 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -1269,7 +1269,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-6",
       "thru": "--",
       "teeTime": "11:35 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -6
@@ -1293,7 +1293,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "7:40 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -1305,7 +1305,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "7:15 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
@@ -1581,7 +1581,7 @@ window.US_OPEN_LEADERBOARD = {
       "today": "-2",
       "thru": "--",
       "teeTime": "7:50 AM",
-      "status": "Live",
+      "status": "Tee time posted",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -2
