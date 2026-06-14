@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 13, 2026 at 09:03 PM CT",
+  "lastUpdated": "Auto-updated on June 14, 2026 at 01:55 AM CT",
   "tournamentLeaderText": "Jackson Suber (-13)",
   "players": [
     {
