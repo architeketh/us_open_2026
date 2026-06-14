@@ -3,9 +3,10 @@ window.US_OPEN_PICKS = {
     {
       "name": "Mike",
       "picks": [
-        "Max Homa",
+        "Wyndham Clark",
         "Aaron Rai",
-        "Brooks Koepka"
+        "Brooks Koepka",
+        "Jackson Suber"
       ]
     },
     {
@@ -13,17 +14,17 @@ window.US_OPEN_PICKS = {
       "picks": [
         "Alex Fitzpatrick",
         "Tommy Fleetwood",
-        "Tony Finau",
-        "Li Haotong"
+        "Ryan Fox",
+        "Jason Day"
       ]
     },
     {
       "name": "Eames",
       "picks": [
         "Ben Kohles",
-        "Ben Martin",
+        "Rickie Fowler",
         "Sam Burns",
-        "Brian Campbell"
+        "Bryson DeChambeau"
       ]
     }
   ]
