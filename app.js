@@ -1,7 +1,7 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.12.14";
+const APP_VERSION = "2026.06.14.01";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
 const DATA_FILES = {
   config: "./data/config.json",
@@ -27,6 +27,7 @@ const elements = {
   boardVersion: document.getElementById("board-version"),
   mastersBoard: document.getElementById("masters-board"),
   mastersBoardMobile: document.getElementById("masters-board-mobile"),
+  tournamentTopTen: document.getElementById("tournament-top-ten"),
   scoreboard: document.getElementById("scoreboard"),
   leaderboard: document.getElementById("leaderboard"),
   adminBackdrop: document.getElementById("admin-backdrop"),
@@ -980,6 +981,68 @@ function renderLeaderboard(players, picks) {
   `;
 }
 
+function renderTournamentTopTen(players) {
+  if (!players || !players.length) {
+    renderEmptyState(elements.tournamentTopTen);
+    return;
+  }
+
+  const topTen = players
+    .filter((player) => hasLiveRoundData(player))
+    .slice()
+    .sort((a, b) => {
+      const aScore = a.scoreToPar ?? 999;
+      const bScore = b.scoreToPar ?? 999;
+      if (aScore !== bScore) return aScore - bScore;
+      const aPos = parsePosition(a.position) ?? 999;
+      const bPos = parsePosition(b.position) ?? 999;
+      if (aPos !== bPos) return aPos - bPos;
+      const aThru = a.thru === "F" ? 99 : (Number(a.thru) || 0);
+      const bThru = b.thru === "F" ? 99 : (Number(b.thru) || 0);
+      if (aThru !== bThru) return bThru - aThru;
+      return a.name.localeCompare(b.name);
+    })
+    .slice(0, 10);
+
+  if (!topTen.length) {
+    elements.tournamentTopTen.innerHTML = `
+      <div class="empty-state">
+        <p>Overall tournament leaders will show here once live round data starts coming in.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const rows = topTen.map((player, index) => `
+    <tr>
+      <td>${index + 1}</td>
+      <td><strong>${escapeHtml(player.name)}</strong></td>
+      <td>${escapeHtml(player.position || "--")}</td>
+      <td><span class="mini-score ${getScoreClass(player.scoreToPar)}">${formatScore(player.scoreToPar)}</span></td>
+      <td>${escapeHtml(player.thru || "--")}</td>
+      <td>${escapeHtml(player.today || "--")}</td>
+      <td>${escapeHtml(player.status || "--")}</td>
+    </tr>
+  `).join("");
+
+  elements.tournamentTopTen.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Player</th>
+          <th>Pos</th>
+          <th>Score</th>
+          <th>Thru</th>
+          <th>Today</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
 function renderMastersBoard(entries) {
   const draftedPlayers = new Map();
 
@@ -1291,6 +1354,7 @@ function renderApp(config, picks, leaderboard, options = {}) {
   latestConfig = config;
   updateHeader(config, entries, normalizedLeaderboard);
   renderMastersBoard(entries);
+  renderTournamentTopTen(normalizedLeaderboard.players);
   renderScoreboard(entries);
   renderLeaderboard(normalizedLeaderboard.players, normalizedPicks);
   renderFieldStatus();

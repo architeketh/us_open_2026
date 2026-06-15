@@ -532,6 +532,10 @@ button:hover,
   margin-top: 20px;
 }
 
+.tournament-top-shell {
+  margin-top: 4px;
+}
+
 .two-column { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 .section-heading {
