@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 14, 2026 at 06:19 PM CT",
+  "lastUpdated": "Auto-updated on June 14, 2026 at 08:42 PM CT",
   "tournamentLeaderText": "Bud Cauley (-17)",
   "players": [
     {
