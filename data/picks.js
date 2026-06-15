@@ -8,7 +8,8 @@ window.US_OPEN_PICKS = {
         "Ludvig Aberg",
         "Bryson DeChambeau",
         "Shane Lowry",
-        "Collin Morikawa"
+        "Collin Morikawa",
+        "Hideki Matsuyama"
       ]
     },
     {
@@ -19,7 +20,8 @@ window.US_OPEN_PICKS = {
         "Tommy Fleetwood",
         "Justin Thomas",
         "Wyndham Clark",
-        "Chris Gotterup"
+        "Chris Gotterup",
+        "Patrick Cantlay"
       ]
     },
     {
@@ -30,7 +32,8 @@ window.US_OPEN_PICKS = {
         "Matt Fitzpatrick",
         "Jordan Spieth",
         "Justin Rose",
-        "Patrick Reed"
+        "Patrick Reed",
+        "Russell Henley"
       ]
     }
   ]
