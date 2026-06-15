@@ -433,6 +433,33 @@ button:hover,
   color: #0f6a3b;
 }
 
+.masters-board tbody tr.board-row-mike td {
+  background: #d8e8fb;
+}
+
+.masters-board tbody tr.board-row-gary td {
+  background: #f4f2eb;
+}
+
+.masters-board tbody tr.board-row-eames td {
+  background: #f8d9da;
+}
+
+.masters-board tbody tr.board-row-mike td.board-owner {
+  background: #2b72b7;
+  color: #fff;
+}
+
+.masters-board tbody tr.board-row-gary td.board-owner {
+  background: #8e8b80;
+  color: #fff;
+}
+
+.masters-board tbody tr.board-row-eames td.board-owner {
+  background: #c92f33;
+  color: #fff;
+}
+
 .owner-chip {
   display: inline-flex;
   padding: 3px 7px;
@@ -441,6 +468,36 @@ button:hover,
   border: 1px solid rgba(15, 106, 59, 0.18);
   font-size: 0.68rem;
   margin: 1px 4px 1px 0;
+}
+
+.owner-chip.owner-mike {
+  background: #2b72b7;
+  border-color: #245f97;
+  color: #fff;
+}
+
+.owner-chip.owner-gary {
+  background: #f8f6ef;
+  border-color: #9a978c;
+  color: #5c5a52;
+}
+
+.owner-chip.owner-eames {
+  background: #c92f33;
+  border-color: #a72327;
+  color: #fff;
+}
+
+.mobile-board-card.board-row-mike {
+  background: #d8e8fb;
+}
+
+.mobile-board-card.board-row-gary {
+  background: #f4f2eb;
+}
+
+.mobile-board-card.board-row-eames {
+  background: #f8d9da;
 }
 
 .mobile-board-card {

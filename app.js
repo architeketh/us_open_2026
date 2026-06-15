@@ -1074,9 +1074,10 @@ function renderMastersBoard(entries) {
 
   const rows = boardPlayers.map((player) => {
     const totalClass = getScoreClass(player.scoreToPar);
+    const rowThemeClass = getBoardRowThemeClass(player.owners);
     return `
-      <tr>
-        <td class="board-owner">${player.owners.map((owner) => `<span class="owner-chip">${escapeHtml(owner)}</span>`).join("")}</td>
+      <tr class="${rowThemeClass}">
+        <td class="board-owner">${player.owners.map((owner) => `<span class="owner-chip ${getOwnerThemeClass(owner)}">${escapeHtml(owner)}</span>`).join("")}</td>
         <td>${escapeHtml(player.position || "--")}</td>
         <td class="board-player">${escapeHtml(player.name)}</td>
         <td class="board-total"><span class="board-score-pill ${totalClass}">${formatScore(player.scoreToPar)}</span></td>
@@ -1090,10 +1091,11 @@ function renderMastersBoard(entries) {
 
   const mobileCards = boardPlayers.map((player) => {
     const totalClass = getScoreClass(player.scoreToPar);
+    const rowThemeClass = getBoardRowThemeClass(player.owners);
     return `
-      <article class="mobile-board-card">
+      <article class="mobile-board-card ${rowThemeClass}">
         <div class="mobile-board-top">
-          <div class="mobile-board-owners">${player.owners.map((owner) => `<span class="owner-chip">${escapeHtml(owner)}</span>`).join("")}</div>
+          <div class="mobile-board-owners">${player.owners.map((owner) => `<span class="owner-chip ${getOwnerThemeClass(owner)}">${escapeHtml(owner)}</span>`).join("")}</div>
           <div class="mobile-board-pos">${escapeHtml(player.position || "--")}</div>
         </div>
         <div class="mobile-board-player">${escapeHtml(player.name)}</div>
@@ -1409,6 +1411,19 @@ async function refreshLeaderboardFromRepo() {
 
 function compareText(a, b) {
   return a.localeCompare(b);
+}
+
+function getOwnerThemeClass(owner) {
+  const normalized = String(owner || "").trim().toLowerCase();
+  if (normalized === "mike") return "owner-mike";
+  if (normalized === "gary") return "owner-gary";
+  if (normalized === "eames") return "owner-eames";
+  return "owner-generic";
+}
+
+function getBoardRowThemeClass(owners) {
+  if (!Array.isArray(owners) || owners.length !== 1) return "board-row-mixed";
+  return `board-row-${getOwnerThemeClass(owners[0]).replace("owner-", "")}`;
 }
 
 function renderSortLabel(key) {
