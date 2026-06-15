@@ -3,28 +3,34 @@
     {
       "name": "Mike",
       "picks": [
-        "Wyndham Clark",
-        "Aaron Rai",
-        "Brooks Koepka",
-        "Jackson Suber"
+        "Cameron Young",
+        "Xander Schauffele",
+        "Ludvig Aberg",
+        "Bryson DeChambeau",
+        "Shane Lowry",
+        "Collin Morikawa"
       ]
     },
     {
       "name": "Gary",
       "picks": [
-        "Alex Fitzpatrick",
+        "Scottie Scheffler",
+        "Brooks Koepka",
         "Tommy Fleetwood",
-        "Ryan Fox",
-        "Jason Day"
+        "Justin Thomas",
+        "Wyndham Clark",
+        "Chris Gotterup"
       ]
     },
     {
       "name": "Eames",
       "picks": [
-        "Ben Kohles",
-        "Rickie Fowler",
-        "Sam Burns",
-        "Bryson DeChambeau"
+        "Rory McIlroy",
+        "Jon Rahm",
+        "Matt Fitzpatrick",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Patrick Reed"
       ]
     }
   ]
