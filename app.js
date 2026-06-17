@@ -298,6 +298,10 @@ function parseTeeTime(value) {
   return (hours * 60) + minutes;
 }
 
+function hasTeeTimeMarker(value) {
+  return /\*+\s*$/.test(String(value || "").trim());
+}
+
 function escapeHtml(value) {
   return String(value)
     .replace(/&/g, "&amp;")
@@ -1442,6 +1446,11 @@ function compareBoardPlayers(a, b) {
     if (result === 0) result = (a.scoreToPar ?? 999) - (b.scoreToPar ?? 999);
   } else if (boardSort.key === "teeTime") {
     result = (parseTeeTime(a.teeTime) ?? 9999) - (parseTeeTime(b.teeTime) ?? 9999);
+    if (result === 0) {
+      const aMarked = hasTeeTimeMarker(a.teeTime) ? 1 : 0;
+      const bMarked = hasTeeTimeMarker(b.teeTime) ? 1 : 0;
+      result = aMarked - bMarked;
+    }
     if (result === 0) result = compareText(a.name, b.name);
   } else if (boardSort.key === "player") {
     result = compareText(a.name, b.name);
