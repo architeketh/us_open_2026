@@ -287,7 +287,8 @@ function parsePosition(value) {
 
 function parseTeeTime(value) {
   if (!value || value === "--") return null;
-  const match = String(value).trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  const normalized = String(value).trim().replace(/\*+$/, "").trim();
+  const match = normalized.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
   if (!match) return null;
 
   let hours = Number(match[1]) % 12;
