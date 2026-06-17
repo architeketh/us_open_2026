@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 17, 2026 at 03:34 PM CT",
+  "lastUpdated": "Auto-updated on June 17, 2026 at 05:23 PM CT",
   "tournamentLeaderText": "Harry Higgs (E) / Taylor Montgomery (E) / Chandler Phillips (E)",
   "players": [
     {
