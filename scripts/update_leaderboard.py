@@ -4,6 +4,7 @@ import csv
 import json
 import os
 import re
+import unicodedata
 from dataclasses import dataclass
 from datetime import datetime
 from html import unescape
@@ -44,7 +45,8 @@ class SourcePayload:
 
 
 def normalize_name(value: str) -> str:
-    cleaned = value.lower()
+    cleaned = unicodedata.normalize("NFKD", value)
+    cleaned = "".join(char for char in cleaned if not unicodedata.combining(char)).lower()
     cleaned = (
         cleaned.replace("å", "a")
         .replace("ä", "a")
