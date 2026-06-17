@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Auto-updated on June 16, 2026 at 09:51 PM CT",
+  "lastUpdated": "Auto-updated on June 16, 2026 at 09:59 PM CT",
   "tournamentLeaderText": "Harry Higgs (E) / Taylor Montgomery (E) / Chandler Phillips (E)",
   "players": [
     {
@@ -8,9 +8,9 @@
       "toPar": "E",
       "today": "-",
       "thru": "--",
-      "teeTime": "--",
-      "status": "Not started",
-      "madeCut": false,
+      "teeTime": "7:52 AM*",
+      "status": "Tee time posted",
+      "madeCut": true,
       "isChampion": false,
       "scoreToPar": 0
     },
@@ -632,9 +632,9 @@
       "toPar": "E",
       "today": "-",
       "thru": "--",
-      "teeTime": "--",
-      "status": "Not started",
-      "madeCut": false,
+      "teeTime": "1:58 PM",
+      "status": "Tee time posted",
+      "madeCut": true,
       "isChampion": false,
       "scoreToPar": 0
     },
@@ -1112,9 +1112,9 @@
       "toPar": "E",
       "today": "-",
       "thru": "--",
-      "teeTime": "--",
-      "status": "Not started",
-      "madeCut": false,
+      "teeTime": "1:47 PM*",
+      "status": "Tee time posted",
+      "madeCut": true,
       "isChampion": false,
       "scoreToPar": 0
     },
@@ -1136,9 +1136,9 @@
       "toPar": "E",
       "today": "-",
       "thru": "--",
-      "teeTime": "--",
-      "status": "Not started",
-      "madeCut": false,
+      "teeTime": "12:30 PM",
+      "status": "Tee time posted",
+      "madeCut": true,
       "isChampion": false,
       "scoreToPar": 0
     },
@@ -1878,7 +1878,7 @@
   "_meta": {
     "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ82Z-7ABj6g1k_U6YiM6-B2KKG4wPpFw1QY5OUJ6hG91Md2Kvh36EcaOxZw9Jf_grxVPaCg8IFGeBw/pub?gid=0&single=true&output=csv",
     "fieldPlayers": 156,
-    "sourceRows": 157,
-    "matchedPlayers": 129
+    "sourceRows": 156,
+    "matchedPlayers": 133
   }
 }
