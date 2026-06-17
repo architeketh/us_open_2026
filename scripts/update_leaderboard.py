@@ -132,9 +132,12 @@ def fetch_source_payload() -> SourcePayload:
     }
     response = requests.get(source_url, headers=headers, timeout=30)
     response.raise_for_status()
+    response_text = response.text
+    if "docs.google.com/spreadsheets" in source_url or "text/csv" in response.headers.get("content-type", "").lower():
+        response_text = response.content.decode("utf-8", errors="replace")
     return SourcePayload(
         url=source_url,
-        text=response.text,
+        text=response_text,
         content_type=response.headers.get("content-type", "").lower(),
     )
 
