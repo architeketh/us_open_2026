@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 18, 2026 at 05:04 PM CT",
+  "lastUpdated": "Auto-updated on June 18, 2026 at 05:05 PM CT",
   "tournamentLeaderText": "Sam Stevens (-2) / Ryder Cowan (a) (-2) / Wyndham Clark (-2)",
   "players": [
     {
