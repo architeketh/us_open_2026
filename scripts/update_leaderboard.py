@@ -58,6 +58,8 @@ def normalize_name(value: str) -> str:
         .replace(".", "")
         .replace("j.y.", "jy")
     )
+    cleaned = re.sub(r"\([^)]+\)", "", cleaned)
+    cleaned = re.sub(r",\s*[a-z .'-]+$", "", cleaned)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
     return cleaned
 
