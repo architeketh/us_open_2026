@@ -281,11 +281,45 @@ function hasLiveRoundData(player) {
   const thru = String(player.thru || "").trim().toUpperCase();
   const today = String(player.today || "").trim().toUpperCase();
   const status = String(player.status || "").trim().toLowerCase();
+  const position = String(player.position || "").trim().toUpperCase();
+  const hasNumericPosition = parsePosition(position) !== null;
+  const hasNonDefaultScore =
+    typeof player.scoreToPar === "number" &&
+    (player.scoreToPar !== 0 || today === "E" || hasNumericPosition || (thru && thru !== "--"));
 
-  if (typeof player.scoreToPar === "number") return true;
+  if (hasNonDefaultScore) return true;
+  if (hasNumericPosition) return true;
   if (thru && thru !== "--") return true;
   if (today && today !== "--") return true;
+  if (status.includes("tee time posted") || status.includes("not started")) return false;
   return status.includes("live") || status.includes("final") || status.includes("complete") || status.includes("round");
+}
+
+function compareLeaderboardPlayers(a, b) {
+  const aScore = a.scoreToPar ?? 999;
+  const bScore = b.scoreToPar ?? 999;
+  if (aScore !== bScore) return aScore - bScore;
+
+  const aPos = parsePosition(a.position) ?? 999;
+  const bPos = parsePosition(b.position) ?? 999;
+  if (aPos !== bPos) return aPos - bPos;
+
+  const aThru = String(a.thru || "").trim().toUpperCase() === "F" ? 99 : (Number(a.thru) || 0);
+  const bThru = String(b.thru || "").trim().toUpperCase() === "F" ? 99 : (Number(b.thru) || 0);
+  if (aThru !== bThru) return bThru - aThru;
+
+  const aTeeTime = parseTeeTime(a.teeTime);
+  const bTeeTime = parseTeeTime(b.teeTime);
+  if (aTeeTime !== null || bTeeTime !== null) {
+    const teeResult = (aTeeTime ?? 9999) - (bTeeTime ?? 9999);
+    if (teeResult !== 0) return teeResult;
+
+    const aMarked = hasTeeTimeMarker(a.teeTime) ? 1 : 0;
+    const bMarked = hasTeeTimeMarker(b.teeTime) ? 1 : 0;
+    if (aMarked !== bMarked) return aMarked - bMarked;
+  }
+
+  return compareText(a.name, b.name);
 }
 
 function parsePosition(value) {
@@ -959,18 +993,7 @@ function renderLeaderboard(players, picks) {
     .filter((player) => draftedLookup.has(normalizeName(player.name)))
     .filter((player) => hasLiveRoundData(player))
     .slice()
-    .sort((a, b) => {
-      const aScore = a.scoreToPar ?? 999;
-      const bScore = b.scoreToPar ?? 999;
-      if (aScore !== bScore) return aScore - bScore;
-      const aPos = parsePosition(a.position) ?? 999;
-      const bPos = parsePosition(b.position) ?? 999;
-      if (aPos !== bPos) return aPos - bPos;
-      const aThru = a.thru === "F" ? 99 : (Number(a.thru) || 0);
-      const bThru = b.thru === "F" ? 99 : (Number(b.thru) || 0);
-      if (aThru !== bThru) return bThru - aThru;
-      return a.name.localeCompare(b.name);
-    })
+    .sort(compareLeaderboardPlayers)
     .slice(0, 5);
 
   if (!topFive.length) {
@@ -1017,18 +1040,7 @@ function renderTournamentTopTen(players) {
   const topTen = players
     .filter((player) => hasLiveRoundData(player))
     .slice()
-    .sort((a, b) => {
-      const aScore = a.scoreToPar ?? 999;
-      const bScore = b.scoreToPar ?? 999;
-      if (aScore !== bScore) return aScore - bScore;
-      const aPos = parsePosition(a.position) ?? 999;
-      const bPos = parsePosition(b.position) ?? 999;
-      if (aPos !== bPos) return aPos - bPos;
-      const aThru = a.thru === "F" ? 99 : (Number(a.thru) || 0);
-      const bThru = b.thru === "F" ? 99 : (Number(b.thru) || 0);
-      if (aThru !== bThru) return bThru - aThru;
-      return a.name.localeCompare(b.name);
-    })
+    .sort(compareLeaderboardPlayers)
     .slice(0, 10);
 
   if (!topTen.length) {
