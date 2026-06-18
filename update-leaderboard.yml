@@ -3,6 +3,7 @@ name: Update Leaderboard
 on:
   schedule:
     - cron: "*/10 * * * *"
+      timezone: "America/Chicago"
   workflow_dispatch:
 
 permissions:
