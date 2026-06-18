@@ -1233,7 +1233,7 @@ function updateMobileRefreshState() {
   const hasStoredLeaderboard = Boolean(getStoredLeaderboard());
   if (hasStoredLeaderboard) {
     elements.mobileRefreshButton.disabled = true;
-    elements.mobileRefreshStatus.textContent = "Reset local data first to use the repo feed refresh.";
+    elements.mobileRefreshStatus.textContent = "Reset local data first to use the published-score reload.";
     return;
   }
 
@@ -1244,12 +1244,12 @@ function updateMobileRefreshState() {
 
   if (msRemaining > 0) {
     elements.mobileRefreshButton.disabled = true;
-    elements.mobileRefreshStatus.textContent = `Manual mobile refresh available in ${formatRelativeCooldown(msRemaining)}.`;
+    elements.mobileRefreshStatus.textContent = `Manual mobile reload available in ${formatRelativeCooldown(msRemaining)}.`;
     return;
   }
 
   elements.mobileRefreshButton.disabled = false;
-  elements.mobileRefreshStatus.textContent = "Manual mobile refresh is available every 15 minutes.";
+  elements.mobileRefreshStatus.textContent = "Manual mobile reload is available every 15 minutes.";
 }
 
 function renderFieldStatus() {
@@ -1451,6 +1451,11 @@ async function refreshLeaderboardFromRepo(options = {}) {
     const refreshed = await loadJson(DATA_FILES.leaderboard);
     const normalized = normalizeLeaderboardData(refreshed);
     if (stableStringify(normalized) === stableStringify(latestLeaderboard)) {
+      if (markMobileRefresh) {
+        setLastMobileRefreshAt(Date.now());
+        elements.mobileRefreshStatus.textContent = "Published scores reloaded. No newer repo update yet.";
+        updateMobileRefreshState();
+      }
       return;
     }
 
@@ -1465,7 +1470,7 @@ async function refreshLeaderboardFromRepo(options = {}) {
   } catch (error) {
     console.warn("Unable to refresh leaderboard from repo.", error);
     if (markMobileRefresh && elements.mobileRefreshStatus) {
-      elements.mobileRefreshStatus.textContent = "Unable to refresh right now. Please try again later.";
+      elements.mobileRefreshStatus.textContent = "Unable to reload published scores right now. Please try again later.";
     }
   }
 }
@@ -1581,7 +1586,7 @@ async function init() {
       }
 
       elements.mobileRefreshButton.disabled = true;
-      elements.mobileRefreshStatus.textContent = "Refreshing scores from the repo feed...";
+      elements.mobileRefreshStatus.textContent = "Reloading published scores...";
       await refreshLeaderboardFromRepo({
         force: true,
         markMobileRefresh: true
