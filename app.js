@@ -1,8 +1,10 @@
 const LEADERBOARD_STORAGE_KEY = "us-open-2026-custom-leaderboard";
 const PICKS_STORAGE_KEY = "us-open-2026-custom-picks";
 const FIELD_STORAGE_KEY = "us-open-2026-player-field";
-const APP_VERSION = "2026.06.14.01";
+const MOBILE_REFRESH_STORAGE_KEY = "us-open-2026-last-mobile-refresh";
+const APP_VERSION = "2026.06.18.01";
 const LEADERBOARD_REFRESH_INTERVAL_MS = 120000;
+const MOBILE_REFRESH_COOLDOWN_MS = 15 * 60 * 1000;
 const DATA_FILES = {
   config: "./data/config.json",
   picks: "./data/picks.json",
@@ -19,6 +21,8 @@ const elements = {
   tournamentVenue: document.getElementById("tournament-venue"),
   eventLeader: document.getElementById("event-leader"),
   poolLeader: document.getElementById("pool-leader"),
+  mobileRefreshButton: document.getElementById("mobile-refresh-button"),
+  mobileRefreshStatus: document.getElementById("mobile-refresh-status"),
   boardUpdate: document.getElementById("board-update"),
   boardUpdateBadge: document.getElementById("board-update-badge"),
   dataSourceBadge: document.getElementById("data-source-badge"),
@@ -210,6 +214,11 @@ function formatCentralTimeStamp(prefix) {
   return `${prefix} ${formatted} CT`;
 }
 
+function formatRelativeCooldown(msRemaining) {
+  const minutes = Math.ceil(msRemaining / 60000);
+  return `${minutes} minute${minutes === 1 ? "" : "s"}`;
+}
+
 function renderTournamentName(name) {
   const value = String(name || "").trim();
   const normalized = value.replace(/\bU\.S\.\b/g, "US");
@@ -324,6 +333,11 @@ function safeReadStorage(key) {
   }
 }
 
+function safeReadNumberStorage(key) {
+  const value = safeReadStorage(key);
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
 function getStoredLeaderboard() {
   return safeReadStorage(LEADERBOARD_STORAGE_KEY);
 }
@@ -334,6 +348,14 @@ function getStoredPicks() {
 
 function getStoredFieldPlayers() {
   return safeReadStorage(FIELD_STORAGE_KEY);
+}
+
+function getLastMobileRefreshAt() {
+  return safeReadNumberStorage(MOBILE_REFRESH_STORAGE_KEY);
+}
+
+function setLastMobileRefreshAt(timestamp) {
+  localStorage.setItem(MOBILE_REFRESH_STORAGE_KEY, JSON.stringify(timestamp));
 }
 
 function normalizeEntry(entry, teamSize) {
@@ -1205,6 +1227,31 @@ function updateWorkflowButtonState(config) {
     : "Add automation.updateWorkflowUrl to data/config.json to enable this button.";
 }
 
+function updateMobileRefreshState() {
+  if (!elements.mobileRefreshButton || !elements.mobileRefreshStatus) return;
+
+  const hasStoredLeaderboard = Boolean(getStoredLeaderboard());
+  if (hasStoredLeaderboard) {
+    elements.mobileRefreshButton.disabled = true;
+    elements.mobileRefreshStatus.textContent = "Reset local data first to use the repo feed refresh.";
+    return;
+  }
+
+  const lastRefreshAt = getLastMobileRefreshAt();
+  const msRemaining = lastRefreshAt
+    ? Math.max(0, MOBILE_REFRESH_COOLDOWN_MS - (Date.now() - lastRefreshAt))
+    : 0;
+
+  if (msRemaining > 0) {
+    elements.mobileRefreshButton.disabled = true;
+    elements.mobileRefreshStatus.textContent = `Manual mobile refresh available in ${formatRelativeCooldown(msRemaining)}.`;
+    return;
+  }
+
+  elements.mobileRefreshButton.disabled = false;
+  elements.mobileRefreshStatus.textContent = "Manual mobile refresh is available every 15 minutes.";
+}
+
 function renderFieldStatus() {
   elements.fieldCount.textContent = latestFieldPlayers.length
     ? `${latestFieldPlayers.length} players loaded`
@@ -1368,6 +1415,7 @@ function renderApp(config, picks, leaderboard, options = {}) {
   renderFieldPreview(latestFieldPlayers);
   renderEntryBuilder(normalizedPicks, config);
   updateWorkflowButtonState(config);
+  updateMobileRefreshState();
   updateDataSourceBadge(options);
   seedAdminEditor();
 }
@@ -1392,9 +1440,10 @@ function parseAdminInput(rawInput, currentLeaderboard, picks) {
   return parseRawLeaderboardInput(rawInput, currentLeaderboard, picks);
 }
 
-async function refreshLeaderboardFromRepo() {
+async function refreshLeaderboardFromRepo(options = {}) {
+  const { force = false, markMobileRefresh = false } = options;
   const storedLeaderboard = getStoredLeaderboard();
-  if (storedLeaderboard || !latestConfig || !latestPicks) {
+  if ((!force && storedLeaderboard) || !latestConfig || !latestPicks) {
     return;
   }
 
@@ -1409,8 +1458,15 @@ async function refreshLeaderboardFromRepo() {
     renderApp(latestConfig, latestPicks, normalized, {
       hasStoredLeaderboard: false
     });
+    if (markMobileRefresh) {
+      setLastMobileRefreshAt(Date.now());
+      updateMobileRefreshState();
+    }
   } catch (error) {
     console.warn("Unable to refresh leaderboard from repo.", error);
+    if (markMobileRefresh && elements.mobileRefreshStatus) {
+      elements.mobileRefreshStatus.textContent = "Unable to refresh right now. Please try again later.";
+    }
   }
 }
 
@@ -1506,6 +1562,31 @@ async function init() {
     });
     window.addEventListener("resize", applyResponsiveBoardMode);
     window.setInterval(refreshLeaderboardFromRepo, LEADERBOARD_REFRESH_INTERVAL_MS);
+    window.setInterval(updateMobileRefreshState, 30000);
+
+    elements.mobileRefreshButton.addEventListener("click", async () => {
+      if (getStoredLeaderboard()) {
+        updateMobileRefreshState();
+        return;
+      }
+
+      const lastRefreshAt = getLastMobileRefreshAt();
+      const msRemaining = lastRefreshAt
+        ? Math.max(0, MOBILE_REFRESH_COOLDOWN_MS - (Date.now() - lastRefreshAt))
+        : 0;
+
+      if (msRemaining > 0) {
+        updateMobileRefreshState();
+        return;
+      }
+
+      elements.mobileRefreshButton.disabled = true;
+      elements.mobileRefreshStatus.textContent = "Refreshing scores from the repo feed...";
+      await refreshLeaderboardFromRepo({
+        force: true,
+        markMobileRefresh: true
+      });
+    });
 
     elements.applyData.addEventListener("click", () => {
       try {
