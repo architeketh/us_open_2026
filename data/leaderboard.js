@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 19, 2026 at 11:39 PM CT",
+  "lastUpdated": "Auto-updated on June 20, 2026 at 03:05 AM CT",
   "tournamentLeaderText": "Wyndham Clark (-7)",
   "players": [
     {
