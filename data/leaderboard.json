@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "Auto-updated on June 20, 2026 at 04:42 PM CT",
-  "tournamentLeaderText": "Wyndham Clark (-7)",
+  "lastUpdated": "Auto-updated on June 20, 2026 at 05:50 PM CT",
+  "tournamentLeaderText": "Wyndham Clark (-6)",
   "players": [
     {
       "name": "Ludvig Aberg",
@@ -40,10 +40,10 @@
     },
     {
       "name": "Akshay Bhatia",
-      "position": "T17",
+      "position": "T13",
       "toPar": "+2",
       "today": "+2",
-      "thru": "13",
+      "thru": "17",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
@@ -52,19 +52,19 @@
     },
     {
       "name": "Zac Blair",
-      "position": "T23",
+      "position": "T18",
       "toPar": "+3",
       "today": "+2",
-      "thru": "16",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": 3
     },
     {
       "name": "Keegan Bradley",
-      "position": "T17",
+      "position": "T13",
       "toPar": "+2",
       "today": "+1",
       "thru": "F",
@@ -76,7 +76,7 @@
     },
     {
       "name": "Michael Brennan",
-      "position": "T43",
+      "position": "T42",
       "toPar": "+6",
       "today": "+3",
       "thru": "F",
@@ -100,19 +100,19 @@
     },
     {
       "name": "Sam Burns",
-      "position": "T4",
-      "toPar": "-1",
-      "today": "E",
-      "thru": "10",
+      "position": "T5",
+      "toPar": "E",
+      "today": "+1",
+      "thru": "15",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": -1
+      "scoreToPar": 0
     },
     {
       "name": "Laurie Canter",
-      "position": "T39",
+      "position": "T38",
       "toPar": "+5",
       "today": "+1",
       "thru": "F",
@@ -136,7 +136,7 @@
     },
     {
       "name": "Bud Cauley",
-      "position": "T43",
+      "position": "T42",
       "toPar": "+6",
       "today": "+2",
       "thru": "F",
@@ -161,14 +161,14 @@
     {
       "name": "Wyndham Clark",
       "position": "1",
-      "toPar": "-7",
-      "today": "E",
-      "thru": "7",
+      "toPar": "-6",
+      "today": "+1",
+      "thru": "12",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": -7
+      "scoreToPar": -6
     },
     {
       "name": "Hamilton Coleman",
@@ -184,19 +184,19 @@
     },
     {
       "name": "Corey Conners",
-      "position": "T23",
-      "toPar": "+3",
-      "today": "+2",
-      "thru": "17",
+      "position": "T13",
+      "toPar": "+2",
+      "today": "+1",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 3
+      "scoreToPar": 2
     },
     {
       "name": "Pierceson Coody",
-      "position": "T32",
+      "position": "T28",
       "toPar": "+4",
       "today": "+1",
       "thru": "F",
@@ -220,15 +220,15 @@
     },
     {
       "name": "Ryder Cowan",
-      "position": "T12",
-      "toPar": "+1",
-      "today": "+1",
-      "thru": "11",
+      "position": "T13",
+      "toPar": "+2",
+      "today": "+2",
+      "thru": "16",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 1
+      "scoreToPar": 2
     },
     {
       "name": "Jason Day",
@@ -328,22 +328,22 @@
     },
     {
       "name": "Alex Fitzpatrick",
-      "position": "T12",
-      "toPar": "+1",
-      "today": "+1",
-      "thru": "15",
+      "position": "T13",
+      "toPar": "+2",
+      "today": "+2",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 1
+      "scoreToPar": 2
     },
     {
       "name": "Matt Fitzpatrick",
-      "position": "T7",
+      "position": "T5",
       "toPar": "E",
       "today": "+3",
-      "thru": "7",
+      "thru": "12",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
@@ -352,7 +352,7 @@
     },
     {
       "name": "Tommy Fleetwood",
-      "position": "T12",
+      "position": "T11",
       "toPar": "+1",
       "today": "E",
       "thru": "F",
@@ -436,7 +436,7 @@
     },
     {
       "name": "Ben Griffin",
-      "position": "T32",
+      "position": "T28",
       "toPar": "+4",
       "today": "+2",
       "thru": "F",
@@ -448,7 +448,7 @@
     },
     {
       "name": "Emiliano Grillo",
-      "position": "T7",
+      "position": "T5",
       "toPar": "E",
       "today": "-3",
       "thru": "F",
@@ -508,12 +508,12 @@
     },
     {
       "name": "Brian Harman",
-      "position": "T23",
+      "position": "T18",
       "toPar": "+3",
       "today": "+3",
-      "thru": "15",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": 3
@@ -532,7 +532,7 @@
     },
     {
       "name": "Tyrrell Hatton",
-      "position": "T32",
+      "position": "T28",
       "toPar": "+4",
       "today": "+2",
       "thru": "F",
@@ -604,27 +604,27 @@
     },
     {
       "name": "Harry Higgs",
-      "position": "T17",
-      "toPar": "+2",
-      "today": "+3",
-      "thru": "9",
+      "position": "T42",
+      "toPar": "+6",
+      "today": "+7",
+      "thru": "14",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 2
+      "scoreToPar": 6
     },
     {
       "name": "Ryo Hisatsune",
-      "position": "T23",
-      "toPar": "+3",
-      "today": "+3",
-      "thru": "12",
+      "position": "T28",
+      "toPar": "+4",
+      "today": "+4",
+      "thru": "17",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 3
+      "scoreToPar": 4
     },
     {
       "name": "Nicolai Hojgaard",
@@ -700,7 +700,7 @@
     },
     {
       "name": "Sungjae Im",
-      "position": "T23",
+      "position": "T18",
       "toPar": "+3",
       "today": "+1",
       "thru": "F",
@@ -724,7 +724,7 @@
     },
     {
       "name": "Dustin Johnson",
-      "position": "T32",
+      "position": "T28",
       "toPar": "+4",
       "today": "+1",
       "thru": "F",
@@ -760,7 +760,7 @@
     },
     {
       "name": "Michael Kim",
-      "position": "T23",
+      "position": "T18",
       "toPar": "+3",
       "today": "E",
       "thru": "F",
@@ -796,15 +796,15 @@
     },
     {
       "name": "Tom Kim",
-      "position": "T4",
-      "toPar": "-1",
-      "today": "+2",
-      "thru": "9",
+      "position": "2",
+      "toPar": "-2",
+      "today": "+1",
+      "thru": "13",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": -1
+      "scoreToPar": -2
     },
     {
       "name": "Nathan Kimsey",
@@ -868,7 +868,7 @@
     },
     {
       "name": "Ben Kohles",
-      "position": "T39",
+      "position": "T38",
       "toPar": "+5",
       "today": "+4",
       "thru": "F",
@@ -1012,51 +1012,51 @@
     },
     {
       "name": "Max McGreevy",
-      "position": "T32",
+      "position": "T28",
       "toPar": "+4",
       "today": "+3",
-      "thru": "16",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": 4
     },
     {
       "name": "Rory McIlroy",
-      "position": "T12",
-      "toPar": "+1",
-      "today": "+1",
-      "thru": "14",
+      "position": "T18",
+      "toPar": "+3",
+      "today": "+3",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 1
+      "scoreToPar": 3
     },
     {
       "name": "Maverick McNealy",
-      "position": "T23",
+      "position": "T18",
       "toPar": "+3",
       "today": "+3",
-      "thru": "14",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": 3
     },
     {
       "name": "Keith Mitchell",
-      "position": "T12",
-      "toPar": "+1",
-      "today": "+1",
-      "thru": "13",
+      "position": "T5",
+      "toPar": "E",
+      "today": "E",
+      "thru": "17",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 1
+      "scoreToPar": 0
     },
     {
       "name": "Taylor Montgomery",
@@ -1072,10 +1072,10 @@
     },
     {
       "name": "Collin Morikawa",
-      "position": "T7",
+      "position": "T5",
       "toPar": "E",
       "today": "+2",
-      "thru": "9",
+      "thru": "13",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
@@ -1084,15 +1084,15 @@
     },
     {
       "name": "William Mouw",
-      "position": "T17",
-      "toPar": "+2",
-      "today": "+2",
-      "thru": "11",
+      "position": "T28",
+      "toPar": "+4",
+      "today": "+4",
+      "thru": "16",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 2
+      "scoreToPar": 4
     },
     {
       "name": "James Nicholas",
@@ -1108,7 +1108,7 @@
     },
     {
       "name": "Joaquin Niemann",
-      "position": "T39",
+      "position": "T38",
       "toPar": "+5",
       "today": "+2",
       "thru": "F",
@@ -1132,12 +1132,12 @@
     },
     {
       "name": "Niklas Norgaard",
-      "position": "T32",
+      "position": "T28",
       "toPar": "+4",
       "today": "+3",
-      "thru": "15",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": 4
@@ -1204,7 +1204,7 @@
     },
     {
       "name": "John Parry",
-      "position": "T23",
+      "position": "T18",
       "toPar": "+3",
       "today": "+1",
       "thru": "F",
@@ -1240,7 +1240,7 @@
     },
     {
       "name": "J.T. Poston",
-      "position": "T23",
+      "position": "T18",
       "toPar": "+3",
       "today": "+1",
       "thru": "F",
@@ -1288,7 +1288,7 @@
     },
     {
       "name": "Andrew Putnam",
-      "position": "T43",
+      "position": "T42",
       "toPar": "+6",
       "today": "+4",
       "thru": "F",
@@ -1312,15 +1312,15 @@
     },
     {
       "name": "Aaron Rai",
-      "position": "T17",
-      "toPar": "+2",
-      "today": "+1",
-      "thru": "17",
+      "position": "T18",
+      "toPar": "+3",
+      "today": "+2",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 2
+      "scoreToPar": 3
     },
     {
       "name": "Patrick Reed",
@@ -1396,7 +1396,7 @@
     },
     {
       "name": "Justin Rose",
-      "position": "T32",
+      "position": "T28",
       "toPar": "+4",
       "today": "+3",
       "thru": "F",
@@ -1480,24 +1480,24 @@
     },
     {
       "name": "Xander Schauffele",
-      "position": "3",
-      "toPar": "-2",
-      "today": "+1",
-      "thru": "8",
+      "position": "T11",
+      "toPar": "+1",
+      "today": "+4",
+      "thru": "13",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": -2
+      "scoreToPar": 1
     },
     {
       "name": "Scottie Scheffler",
-      "position": "T4",
+      "position": "T3",
       "toPar": "-1",
       "today": "-1",
-      "thru": "15",
+      "thru": "F",
       "teeTime": "--",
-      "status": "Live",
+      "status": "Finished",
       "madeCut": true,
       "isChampion": false,
       "scoreToPar": -1
@@ -1624,7 +1624,7 @@
     },
     {
       "name": "Jordan Spieth",
-      "position": "T43",
+      "position": "T42",
       "toPar": "+6",
       "today": "+3",
       "thru": "F",
@@ -1648,15 +1648,15 @@
     },
     {
       "name": "Sam Stevens",
-      "position": "2",
-      "toPar": "-4",
-      "today": "-1",
-      "thru": "8",
+      "position": "T3",
+      "toPar": "-1",
+      "today": "+2",
+      "thru": "13",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": -4
+      "scoreToPar": -1
     },
     {
       "name": "Preston Stout",
@@ -1720,10 +1720,10 @@
     },
     {
       "name": "Sahith Theegala",
-      "position": "T7",
+      "position": "T5",
       "toPar": "E",
       "today": "+1",
-      "thru": "10",
+      "thru": "15",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
@@ -1732,15 +1732,15 @@
     },
     {
       "name": "Justin Thomas",
-      "position": "T7",
-      "toPar": "E",
-      "today": "+1",
-      "thru": "9",
+      "position": "T28",
+      "toPar": "+4",
+      "today": "+5",
+      "thru": "14",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 0
+      "scoreToPar": 4
     },
     {
       "name": "Davis Thompson",
@@ -1804,15 +1804,15 @@
     },
     {
       "name": "Gary Woodland",
-      "position": "T17",
-      "toPar": "+2",
-      "today": "+2",
-      "thru": "12",
+      "position": "T18",
+      "toPar": "+3",
+      "today": "+3",
+      "thru": "17",
       "teeTime": "--",
       "status": "Live",
       "madeCut": true,
       "isChampion": false,
-      "scoreToPar": 2
+      "scoreToPar": 3
     },
     {
       "name": "Brandon Wu",
@@ -1852,7 +1852,7 @@
     },
     {
       "name": "Cameron Young",
-      "position": "T39",
+      "position": "T38",
       "toPar": "+5",
       "today": "+3",
       "thru": "F",
