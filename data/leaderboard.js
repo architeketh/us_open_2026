@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 24, 2026 at 02:57 AM CT",
+  "lastUpdated": "Auto-updated on June 24, 2026 at 05:48 AM CT",
   "tournamentLeaderText": "Ryan Fox (E) / Matt McCarty (E) / Tom Hoge (E)",
   "players": [
     {
