@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 25, 2026 at 08:51 PM CT",
+  "lastUpdated": "Auto-updated on June 26, 2026 at 04:48 AM CT",
   "tournamentLeaderText": "Eric Cole (-7)",
   "players": [
     {
