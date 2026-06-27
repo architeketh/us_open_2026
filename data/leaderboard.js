@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 26, 2026 at 09:39 PM CT",
+  "lastUpdated": "Auto-updated on June 27, 2026 at 01:16 AM CT",
   "tournamentLeaderText": "Scottie Scheffler (-16)",
   "players": [
     {
