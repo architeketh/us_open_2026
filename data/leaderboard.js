@@ -1,5 +1,5 @@
 window.US_OPEN_LEADERBOARD = {
-  "lastUpdated": "Auto-updated on June 27, 2026 at 08:36 PM CT",
+  "lastUpdated": "Auto-updated on June 28, 2026 at 12:59 AM CT",
   "tournamentLeaderText": "Viktor Hovland (-20)",
   "players": [
     {
